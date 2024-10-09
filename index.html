@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PokéAPI</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+
+    <header class="header">
+
+        <div class="header-top">
+            <ul class="px-2">
+                <!-- <li><a href="#" target="_blank">Forum</a></li>
+                <li><a href="#" target="_blank">Tchat</a></li> -->
+            </ul>
+            <ul class="px-2">
+                <li><a href="#" target="_blank" class="icon-f"></a></li>
+                <li><a href="#" target="_blank" class="icon-t"></a></li>
+                <li><a href="#" target="_blank" class="icon-i"></a></li>
+                <li><a href="#" target="_blank" class="icon-y"></a></li>
+            </ul>
+        </div>
+
+        <div class="header-nav"> <!-- Sur tablette/mobile, il prend 100% height (et x% width si menu-active) -->
+            <div class="header-nav-child1">
+                <div class="container-burger tablet" id="open_menuburger">
+                    <div class="container-burger-in">
+                        <div>
+                            <div class="bar1"></div>
+                            <div class="bar2"></div>
+                            <div class="bar3"></div>
+                        </div>
+                        <div>Menu</div>
+                    </div>
+                </div>
+                <a href="/" class="logo"><img src="assets/img/logo.png" alt=""></a>
+
+
+                <div id="my_overlay" class="my-overlay"> <!-- On ajoute un conteneur autour de la nav comme "overlay" pour pouvoir fermer le menu sur mobile en cliquant partout ailleurs -->
+
+                    <nav class="nav-icon">
+                        <ul class="ul-1">
+                            <li><a href="#manga">Manga</a></li>
+                            <li><a href="#dossier">Dossiers</a></li>
+                            <!-- <li class="dropdown">
+                                <div>
+                                    <a href="#jeuxvideo" class="drop-a">Jeux Vidéo</a>
+                                    <div class="open-submenu"></div>
+                                </div>
+                                <div class="dropdown-content">
+                                    <ul class="ul-2">
+                                        <li><a href="#pokemon">Pokémon</a></li>
+                                        <li><a href="#yugioh">Yu-Gi-Oh</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="dropdown">
+                                <div>
+                                    <span class="drop-a">Autres</span>
+                                    <div class="open-submenu"></div>
+                                </div>
+                                <div class="dropdown-content">
+                                    <ul class="ul-2">
+                                        <li><a href="#lien1">Lien 1</a></li>
+                                        <li><a href="#lien2">Lien 2</a></li>
+                                        <li><a href="#lien3">Lien 3</a></li>
+                                    </ul>
+                                </div>
+                            </li> -->
+                        </ul>
+                    </nav>
+
+                </div>
+
+
+            </div>
+
+            <div class="header-nav-child2 nav-icon">
+                <a class="icon-search" id="search"></a>
+
+                <div class="search-container">
+                    <div class="search-content">
+                        <div class="search-header"> <!-- Non affiché par défaut -->
+                            <span class="close-search"></span>
+                            <div class="h4 mb-0">Recherche</div>
+                        </div>
+                        <form action="recherche.php" method="get" class="search">
+                            <input type="search" id="recherche" name="recherche" placeholder="Recherche">
+                            <button type="submit" class="submit"><span class="icon-search"></span></button>
+                        </form>
+                    </div>
+                </div>
+
+                <a href="javascript:void(0)" class="icon-user open-connect" rel="nofollow"><span class="txt">Connexion</span></a>
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <div class="container">
+        <div class="breadcrumb"><a href="/"><span class="icon-home"></span>Accueil</a> > </div>
+
+        <main>
+
+            <div class="center">
+                <img src="./assets/img/pokeapi_256.png" alt="PokeAPI">
+                <h1 class="h1 mt-2">PokéAPI avec JavaScript POO</h1>
+
+                <form action="#" id="pokemon-search">
+                    <input type="text" placeholder="Nom ou Numéro de Pokédex national" id="search-input">
+                    <button class="btn">Recherche</button>
+                </form>
+
+                <button id="getByNameBtn" class="btn">Rechercher par nom</button>
+                <button id="getByIdBtn" class="btn">Rechercher par id</button>
+
+                <div id="pokemon-id" class="mt-5"></div>
+
+                <div class="grid-5-col">
+                    <div class="grid-cell head">Nom :</div>
+                    <div class="grid-cell head">Poids :</div>
+                    <div class="grid-cell head">Taille :</div>
+                    <div class="grid-cell head">Type :</div>
+                    <div class="grid-cell head">Abilité :</div>
+        
+                    <div class="grid-cell" id="pokemon-name"></div>
+                    <div class="grid-cell" id="pokemon-weight"></div>
+                    <div class="grid-cell" id="pokemon-height"></div>
+                    <div class="grid-cell" id="pokemon-types"></div>
+                    <div class="grid-cell" id="pokemon-abilities"></div>
+                </div>
+
+                <div id="pokemon-image"></div>
+
+                <button id="pokemon-previous" class="btn">&lt;&lt;</button>
+                <button id="pokemon-next" class="btn">&gt;&gt;</button>
+
+                <br>
+
+                <button id="getAllBtn" class="btn">Tous les pokémons (test console)</button>
+
+            </div>
+
+            <p>Réaliser un programme permettant d'exploiter les fonctionnalités de l'API PokéAPI disponible à cette adresse : https://pokeapi.co/</p>
+
+            <p>Le programme devra permettre plusieurs fonctionnalités :</p>
+
+            <ul class="li-arrow mb-5">
+                <li>Permettre de chercher un pokémon via son nom.</li>
+                <li>Permettre de chercher un pokémon via son numéro de pokédex nationnal (son id).</li>
+                <li>Permettre de visualiser les informations principales du pokémon (Son nom, son poids, sa taille, ses types, ses capacités et son numéro de pokédex nationnal).</li>
+                <li>Il devra être possible de passer directement au pokémon suivant ou précédent dans le pokédex (aller du #27 au #28 par exemple). Cette fonctionnalité devra vérifier si l'on est déjà au premier ou au dernier pokémon afin d'éviter de chercher un pokémon non existant.</li>
+            </ul>
+
+        </main>
+
+    </div>
+
+
+    <div class="totop"></div> <!-- Ajout de la class "visible" quand le bouton apparaît -->
+
+    <footer class="footer">
+        <div class="copyright">Copyright © 2024 Mangaluxe. Reproduction interdite.</div>
+
+        <div>
+            <ul>
+                <li><a href="#">Contact</a></li>
+                <li><a href="#">Cookie</a></li>
+                <li><a href="#">Copyright</a></li>
+            </ul>
+        </div>
+    
+    </footer>
+
+
+    <script src="assets/js/script.js"></script>
+    <script src="assets/js/api.js"></script>
+
+    <!-- <script type="module" src="assets/js/script.js"></script> -->
+</body>
+</html>

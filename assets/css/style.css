@@ -1,0 +1,1628 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+:root { /* Déclaration de variables css */
+    --white: #fcfcfc;
+    --grey: #c4c4c4;
+    --black: #161515;
+    --green: #139d25;
+    --red: #CC0000;
+    --blue1: #eef6fd;
+    --blue2: #c5daf5;
+    --blue3: #82b5ec;
+    --blue4: #4caee2;
+    --blue5: #4487be;
+    --blue6: #375c86;
+    --blue7: #27355a;
+    --box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, .2);
+    --gradient: linear-gradient(#c5daf5, #eef6fd);
+}
+
+html {
+    scroll-behavior: smooth; /* Défilement doux quand on retourne en haut */
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font: 1em Verdana, sans-serif;
+    background-color: #fff;
+    color: var(--black);
+}
+
+@font-face {
+	font-family: "myfont"; /* Type sans-serif */
+    src: url("../font/rubik-regular.woff2") format("woff2"), /* Le plus léger en haut */
+        url('../font/rubik-regular.woff') format('woff'),
+        url('../font/rubik-regular.ttf') format('truetype'); 
+    font-style: normal;
+    font-weight: normal; /* On peut mettre 400 */
+}
+
+@font-face {
+    font-family: "myfont";
+    src: url("../font/rubik-italic.woff2") format("woff2"),
+        url('../font/rubik-italic.woff') format('woff'),
+        url('../font/rubik-italic.ttf') format('truetype');
+    font-style: italic;
+    font-weight: normal; /* 400 */
+}
+
+@font-face {
+    font-family: "myfont";
+    src: url("../font/rubik-bold.woff2") format("woff2"),
+        url('../font/rubik-bold.woff') format('woff'),
+        url('../font/rubik-bold.ttf') format('truetype'); 
+    font-style: normal;
+    font-weight: bold; /* 700 */
+}
+
+/* ----- Texte ----- */
+
+h1, h2, h3, h4, h5, h6 {margin-top: 0}
+.h1 {font-size: 2.5em}
+.h2 {font-size: 2em}
+.h3 {font-size: 1.75em}
+.h4 {font-size: 1.5em}
+
+.h1,
+.h2 {
+    font-family: "myfont", sans-serif;
+    font-weight: bold; /* On peut mettre 700 */
+}
+
+.h-box-shadow {
+    font: bold 1.1em sans-serif;
+    color: #fff;
+    display: inline-block;
+    text-transform: uppercase;
+    padding: 5px 17px;
+    position: relative;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+.h-box-shadow::after {
+    background-color: var(--blue5);
+    box-shadow: 6px 6px rgba(45, 120, 190, .6), 12px 12px rgba(45, 120, 190, .3);
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    transform: skewX(-10deg);
+    z-index: -1;
+}
+
+.h-triangle {
+    font: 700 2.5em sans-serif;
+    color: #111010;
+    position: relative;
+    padding-left: 15px;
+}
+.h-triangle::before {
+    content: "";
+    position: absolute;
+    top: 1px;
+    left: 3px;
+    transform: rotate(-11deg);
+
+    border: solid transparent;
+    border-width: 44px 20px 20px 20px;
+    border-color: var(--blue3) transparent transparent transparent;
+    z-index: -1;
+}
+
+a {
+    text-decoration: none;
+    color: #3c73a7;
+}
+a:hover {color: var(--blue6);}
+a.active {background-color: var(--blue3);}
+
+.b {font-weight: bold}
+.i {font-style: italic}
+.u {
+    color: var(--blue5);
+    border-bottom: 1px solid var(--blue5);
+    display: inline;
+}
+.u:hover {
+    color: var(--blue6);
+    border-bottom: 1px solid var(--blue6);
+}
+
+.mini {font-size: .8em;}
+
+.cursor {cursor: pointer}
+
+header ul,
+footer ul,
+nav ul,
+aside ul,
+.li-arrow,
+.a-arrow {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.a-arrow a::before,
+.li-arrow > li::before,
+.arrow-before::before {
+    font-family: "icomoon";
+    content: "\ea3c";
+    font-size: 0.8em;
+    margin-right: 5px;
+}
+
+.no-margin-padding {
+    margin: 0;
+    padding: 0;
+}
+ul.no-margin-padding {
+    margin-left: 15px;
+}
+
+.uppercase {text-transform: uppercase}
+
+address {font-style: normal}
+
+.noselect {
+    -webkit-user-select: none; /* Safari 3.1+ */
+    -moz-user-select: none; /* Firefox 2+ */
+    -ms-user-select: none; /* Edge */
+    user-select: none;
+}
+
+.breadcrumb { /* Fil d'ariane */
+    font: 1em Verdana, sans-serif;
+    margin-bottom: 40px;
+}
+.breadcrumb a {
+    color: var(--black);
+}
+.breadcrumb .icon-home::before {
+    margin-right: 5px;
+}
+
+/* ----- Blocs ----- */
+
+.row { /* Grille CSS */
+    display: flex;
+    flex-wrap: wrap;
+}
+.col-1 {width: 8.33%}
+.col-2 {width: 16.66%}
+.col-3 {width: 25%}
+.col-4 {width: 33.33%}
+.col-5 {width: 41.66%}
+.col-6 {width: 50%}
+.col-7 {width: 58.33%}
+.col-8 {width: 66.66%}
+.col-9 {width: 75%}
+.col-10 {width: 83.33%}
+.col-11 {width: 91.66%}
+.col-12 {width: 100%}
+
+.hidden,
+.tablet,
+.tablet-only,
+.mobile-only {display: none}
+
+.show .hidden,
+.block {display: block}
+
+.inline-block {display: inline-block}
+
+.container-main-aside {
+    display: flex;
+}
+
+.aside {
+    width: 380px;
+    min-width: 380px;
+    padding-left: 40px;
+}
+
+table {
+    border-collapse: collapse;
+}
+td {
+    border: 1px solid #c4c4c4;
+    padding: 2px;
+}
+
+/* ----- Box ----- */
+
+.box {
+    border: 1px solid #d4d4d4;
+    border-radius: 8px;
+    box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.4);
+    margin-bottom: 30px;
+    overflow-x: hidden;
+}
+
+.box-shadow {box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.4)}
+
+.box-blue {
+    box-shadow: 0 0 65px var(--blue2) inset, 0 0 20px var(--blue1) inset, 0 0 2px var(--blue5);
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.box-title {
+    background: linear-gradient(#c5daf5, #eef6fd);
+    padding: 12px 15px;
+    border-radius: 8px 8px 0 0;
+    margin-bottom: 0;
+    font: 700 1.1em Arial, sans-serif;
+}
+
+.box-padding {
+    padding: 15px;
+}
+
+/* ----- Grid ----- */
+
+.grid-2-col,
+.grid-3-col,
+.grid-4-col,
+.grid-5-col,
+.grid-6-col,
+.grid-7-col,
+.grid-8-col {
+    display: grid;
+    border-left: 1px solid var(--grey);
+    border-top: 1px solid var(--grey);
+    font-size: .9em;
+    margin: 20px auto;
+    overflow-x: auto; /* Ajout de scroll si nécessaire */
+}
+
+.grid-2-col {grid-template-columns: auto auto;}
+.grid-3-col {grid-template-columns: repeat(3, auto);} /* Equivalent à {grid-template-columns: auto auto auto;} */
+.grid-4-col {grid-template-columns: repeat(4, auto);}
+.grid-5-col {grid-template-columns: repeat(5, auto);}
+.grid-6-col {grid-template-columns: repeat(6, auto);}
+.grid-7-col {grid-template-columns: repeat(7, auto);}
+.grid-8-col {grid-template-columns: repeat(8, auto);}
+
+.grid-cell {
+    border-right: 1px solid var(--grey);
+    border-bottom: 1px solid var(--grey);
+    padding: 2px 4px;
+}
+.grid-cell img {max-width: 200px;}
+.grid-cell.center {
+    justify-content: center;
+}
+.grid-cell.head {
+    background: linear-gradient(#4e8cbe, #9FB8D9);
+    color: #fff;
+    font-weight: 600;
+}
+.grid-cell.head:not(:first-child) {
+    text-align: center;
+}
+
+.grid-cell p {margin-top: 0;}
+.grid-cell p:last-child {margin-bottom: 0;}
+
+.grid-cell [class*="icon-"] {margin-left: 6px;}
+.grid-cell .icon-gem {font-size: .7em;}
+
+/* ----- Tableau avec liste ----- */
+
+.table-list-head {
+    display: flex;
+    background: linear-gradient(#4e8cbe, #9FB8D9);
+    color: #fff;
+    font: bold .9em Arial, sans-serif;
+    text-align: center;
+    border-left: 1px solid var(--grey);
+    border-top: 1px solid var(--grey);
+    
+}
+
+.table-list-head .e {
+    width: 25%;
+    border-right: 1px solid var(--grey);
+    border-bottom: 1px solid var(--grey);
+    padding: 2px 4px;
+}
+
+.table-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.table-list li {
+    display: flex;
+    width: 100%;
+    border-left: 1px solid var(--grey);
+    border-bottom: 1px solid var(--grey);
+}
+
+.table-list .e {
+    width: 25%;
+    border-right: 1px solid var(--grey);
+    padding: 2px 4px;
+
+}
+
+
+/* ----- Alignement ----- */
+
+.center {text-align: center}
+.right {text-align: right}
+
+/* ----- Marges ----- */
+
+.m-auto {margin: auto}
+
+.m-0 {margin: 0 !important}
+.mt-0, .my-0 {margin-top: 0 !important}
+.mr-0, .mx-0 {margin-right: 0 !important}
+.mb-0, .my-0 {margin-bottom: 0 !important}
+.ml-0, .mx-0 {margin-left: 0 !important}
+
+.mt-2 {margin-top: 20px !important}
+.mt-5 {margin-top: 50px !important}
+.mb-2 {margin-bottom: 20px !important}
+.mb-5 {margin-bottom: 50px !important}
+
+.p-0 {padding: 0 !important}
+.pt-0, .py-0 {padding-top: 0 !important}
+.pr-0, .px-0 {padding-right: 0 !important}
+.pb-0, .py-0 {padding-bottom: 0 !important}
+.pl-0, .px-0 {padding-left: 0 !important}
+
+.px-2 {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.hr {
+    border: 0;
+    border-top: 1px solid #E5E5E5;
+}
+
+.text-nowrap {white-space: nowrap}
+
+.overflow-hidden {overflow: hidden}
+
+/* Supprime les marges du premier et dernier enfant (très utile pour <div class="child-no-margin"> avec <p> dedans) : */
+.child-no-margin > :first-child {margin-top: 0 !important;}
+.child-no-margin > :last-child {margin-bottom: 0 !important;}
+
+/* ----- Images/Vidéos ----- */
+
+.responsive,
+iframe {
+    max-width: 100%; /* Responsive */
+    height: auto;
+}
+
+/* ----- Formulaire ----- */
+
+.btn {
+    background-color: var(--blue5);
+    color: var(--white);
+    font: 1em sans-serif;
+    border-radius: 10px;
+    padding: 10px 18px;
+    cursor: pointer;
+    border: none;
+    outline: none; /* Eviter bordure sur chrome */
+    transition: 0.2s ease;
+}
+.mini-btn {
+    background-color: var(--blue5);
+    color: var(--white);
+    border-radius: 3px;
+    font: 0.8em sans-serif;
+    padding: 5px 8px 4px;
+    cursor: pointer;
+    border: none;
+    outline: none; /* Eviter bordure sur chrome */
+    transition: 0.2s ease;
+}
+.btn:hover,
+.mini-btn:hover {
+    background-color: var(--blue6);
+    color: var(--white);
+}
+
+
+main form {margin-bottom: 50px;}
+main form > div {margin-top: 15px;}
+
+main input[type="checkbox"],
+main input[type="radio"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    appearance: none;
+
+    border: 3px solid #487bc7;
+    background-color: white;
+    height: 20px;
+    width: 20px;
+    margin: 2px 5px 2px 0;
+
+    vertical-align: -6px;
+}
+main input[type="checkbox"]:checked,
+main input[type="radio"]:checked {
+    background-color: #1b48b4;
+    box-shadow: inset 0px 0px 0px 2px white; /* inset pour ombre interne */
+    outline: none; /* Pour Chrome */
+}
+main input[type="radio"] {
+    border-radius: 50%;
+}
+
+main input[type="text"],
+main input[type="number"],
+main input[type="url"],
+main input[type="email"],
+main input[type="date"],
+main input[type="datetime-local"],
+main input[type="password"],
+main textarea,
+main select {
+    border: 1px solid var(--blue4);
+    background-color: white;
+    border-radius: 10px;
+    padding: 9px 12px;
+    min-width: 40%;
+    font: 1em Verdana, sans-serif;
+    outline: none;
+    margin-top: 8px;
+}
+
+main input[type="number"] {
+    -moz-appearance: textfield; /* Retirer les flèches des inputs de type number. Firefox */
+}
+main input[type="number"]::-webkit-inner-spin-button,
+main input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none; /* Chrome */
+    margin: 0;
+}
+main input[type="number"]::-o-inner-spin-button,
+main input[type="number"]::-o-outer-spin-button {
+    -o-appearance: none; /* Opera */
+    margin: 0
+}
+
+main .select-container {
+    position: relative;
+    display: inline-block;
+}
+
+main select {
+    padding: 6px 22px 6px 10px; /* On met plus de padding à droite pour y insérer la flèche */
+
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    appearance: none; /* Cacher la flèche de select */
+}
+main .arrow-down:after {
+    color: var(--blue4);
+    content: "\25BC"; /* ▼ */
+    font-size: .8em;
+    position: absolute;
+    pointer-events: none; /* Sans cela, il est impossible de cliquer à cette endroit */
+    right: 6px;
+    top: 16px;
+}
+
+main input[type="file"]::file-selector-button,
+main .btn {
+    background-color: var(--blue5);
+    color: white;
+    border-radius: 10px;
+    font: 1em Verdana, sans-serif;
+    display: inline-block;
+    padding: 9px 12px;
+    cursor: pointer;
+    border: none;
+}
+
+main input[type="file"]::file-selector-button:hover,
+main .btn:hover {
+    background-color: var(--blue6);
+}
+
+main input[type=file]:focus {
+    outline: none;
+}
+
+main input[type="submit"].btn,
+main button.btn {
+    margin-top: 50px;
+}
+
+main textarea {
+    display: block;
+    width: 100%;
+    height: 4em;
+    resize: none; /* Désactiver le redimensionnement de textarea */
+}
+
+
+main .form-control.form-invalid {
+    background-color: #feebf8 !important;
+}
+.warning {color: #c00}
+.success {color: #139d25}
+
+/* ----- Flexbox ----- */
+
+.flex,
+.flex-mobile-column {
+    display: flex;
+}
+
+/* ----- Position ----- */
+
+.relative {position: relative}
+.absolute {position: absolute}
+.fixed {position: fixed}
+
+/* ----- Float ----- */
+
+.float-left {float: left}
+.float-right {float: right}
+.float-none {float: none}
+.clear {clear: both}
+
+/* ----- Pagination ----- */
+
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    margin: 50px auto;
+}
+
+.pagination-container::after { /* Astuce pour faire clear:both facilement : on le fait sur ::after */
+    content: ""; /* Sans cela, cela ne marchera pas */
+    clear: both; /* Annule le float directement avec ::after*/
+    display: block; /* On transforme en table ou block */
+}
+
+.pagination a {
+    float: left;
+
+    text-decoration: none;
+    border-radius: 5px;
+    margin: 4px;
+    border: 1px solid var(--blue5);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 2.5em;
+    height: 2.5em;
+    font-weight: bold;
+}
+
+.pagination a.active  {
+    color: var(--white);
+    background-color: var(--blue5);
+    pointer-events: none; 
+}
+.pagination a:hover:not(.active) {
+    background-color: var(--blue6);
+    color: var(--white);
+}
+.pagination a:first-child,
+.pagination a:last-child {
+    box-shadow: var(--box-shadow);
+}
+
+.icon-arrow-prev::before {
+    content: "❮";
+}
+.icon-arrow-next::before {
+    content: "❯";
+}
+.icon-arrow-first::before {
+    content: "❮❮";
+}
+.icon-arrow-last::before {
+    content: "❯❯";
+}
+
+
+/* ==================== Header ==================== */
+
+.header {
+    width: 100%;
+    margin-bottom: 40px;
+}
+
+
+.header-top {
+    width: 100%;
+    height: 32px;
+    background-color: #0d0d0e;
+    font: .8em Verdana, sans-serif;
+    display: flex;
+    justify-content: space-between;
+}
+.header-top ul {
+    display: flex;
+}
+.header-top a {
+    color: #cac7c7;
+    padding: 8px 10px;
+    display: inline-block;
+}
+.header-top a:hover {
+    color: #fffbfb;
+}
+.header-top [class^="icon-"] {
+    font-size: 1.1em;
+}
+
+
+.header-nav {
+    width: 100%;
+    height: 59px;
+    background-color: var(--blue5);
+    display: flex;
+    justify-content: space-between;
+    box-shadow: 0px 2px 6px 1px rgba(0, 0, 0, 0.3);
+
+    position: relative; /* Juste pour mettre z-index */
+    z-index: 2;
+}
+
+.header-nav-child1,
+.header-nav-child2 {
+    display: flex;
+    align-items: center;
+}
+
+.ul-1 {
+    display: flex;
+}
+
+
+.header-nav .nav-icon a,
+.header-nav .nav-icon span.drop-a {
+    color: var(--white);
+    padding: 10px 15px;
+    border-radius: 20px;
+    display: inline-block;
+    white-space: nowrap;
+    margin: 2px;
+}
+.header-nav .nav-icon a:hover {
+    background-color: #179BE1;
+}
+
+
+.header-nav .nav-icon > .icon-user {
+    background-color: var(--blue3);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    margin-left: 5px;
+    margin-right: 15px;
+}
+.header-nav .nav-icon > .icon-user:hover {
+    background-color: #179BE1;
+}
+a .txt {
+    font: .9em Verdana, sans-serif;
+    margin-left: 6px;
+}
+@media screen and (max-width: 600px) {
+    a .txt {
+        display: none;
+    }
+    .header-nav .nav-icon > .icon-user {
+        background-color: transparent; /* Remettre par défaut */
+    }
+}
+
+.logo {
+    margin: 0 7px 0 20px;
+
+    /* Juste pour utiliser z-index : */
+    /* position: relative; */
+    /* z-index: 3; */
+}
+
+
+.search {
+    margin-right: 10px;
+    position: relative;
+    width: 232px;
+    height: 37px;
+    /* top: 1px; */
+}
+
+.search input[type="search"] {
+    width: 15em;
+    height: 37px; /* Pour que l'input et le bouton submit aient la même hauteur */
+    border: none;
+    border-radius: 20px 0 0 20px;
+    -webkit-appearance: none;
+    outline: none;
+    padding: 0 15px;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.search button.submit {
+    height: 37px; /* Pour que l'input et le bouton submit aient la même hauteur */
+    background-color: var(--blue3);
+    border: none;
+    border-radius: 0 20px 20px 0;
+    color: var(--white);
+    cursor: pointer;
+    font: .9em Verdana, sans-serif;
+    padding: 0 10px 0 8px;
+
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.search button.submit:hover {
+    background-color: #179BE1;
+}
+
+
+#search {
+    cursor: pointer;
+    display: none;
+}
+@media screen and (max-width: 1279px) {
+    #search {
+        display: block;
+    }
+    .search {
+        display: none;
+    }
+    .search button.submit {
+        background-color: var(--blue5);
+    }
+    .search button.submit:hover {
+        background-color: var(--blue6);
+    }
+}
+
+#burger-overlay {
+    display: none; /* Caché par défaut */
+    position: fixed;
+    top: 32px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+/* ----- Profil ----- */
+
+.profil-dropdown {
+    display: none;
+    position: absolute;
+    right: 20px;
+    top: 60px;
+    background-color:var(--blue1);
+    border-color: #B9B9B9;
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+    z-index: -1;
+}
+.profil-dropdown::before {
+    content: "";
+    width: 0;
+    border: solid transparent;
+    border-width: 0 8px 11px 8px;
+    border-color: transparent transparent var(--blue1) transparent;
+    position: absolute;
+    top: -11px;
+    right: 38px;
+}
+
+.profil-dropdown [class*="icon-"] {
+    margin-right: 8px;
+}
+
+.profil-dropdown-menu {
+    overflow: hidden;
+    border-radius: 5px;
+}
+
+.profil-dropdown-menu > a {
+    color: var(--black) !important;
+    border-radius: 0 !important;
+    padding: 9px 12px !important;
+    cursor: pointer;
+    font: .8em sans-serif;
+    transition: 0.2s ease;
+}
+.profil-dropdown-menu > a:hover {
+    color: var(--white) !important;
+    background-color: var(--blue5) !important;
+}
+.profil-dropdown-menu > a:not(:last-child) {
+    border-bottom: solid 1px #B9B9B9 !important;
+}
+
+#profil-drop > span {
+    max-width: 99px;
+    overflow: hidden;
+}
+
+.profil-overlay { /* Pour fermer le profil en cliquant partout ailleurs */
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -2;
+    display: none;
+}
+
+.open .profil-dropdown,
+.open .profil-overlay {
+    display: block;
+}
+
+/* ----- Dessin Menu Burger ----- */
+
+.container-burger {
+    cursor: pointer;
+    height: 100%;
+    width: 60px;
+    min-width: 60px;
+    background-color: var(--blue6);
+
+    position: relative; /* Juste pour utiliser z-index */
+    z-index: 3;
+}
+
+.container-burger-in {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--white);
+}
+
+.bar1,
+.bar2,
+.bar3 {
+    width: 25px;
+    height: 3px;
+    background-color: var(--white);;
+    margin: 4px 0;
+    transition: 0.4s;
+}
+
+/* Si menu-active : */
+
+.menu-active .bar1 {transform: rotate(-45deg) translate(-4px, 5px);
+}
+.menu-active .bar2 {opacity: 0;}
+.menu-active .bar3 {transform: rotate(45deg) translate(-5px, -6px);}
+
+.menu-active #burger-overlay {
+    display: block; /* #burger-overlay apparait uniquement quand il y a la class .menu-active */
+}
+
+body.menu-active {
+    background-color: rgba(0,0,0,0.7);
+    height: 100vh;
+    overflow: hidden; /* 💡 Si le menu est ouvert, on bloque le scroll du body */
+}
+
+
+/* ==================== Footer ==================== */
+
+.footer {
+    margin-top: 40px;
+    background-color: var(--blue6);
+    width: 100%;
+    min-height: 150px;
+    padding: 15px;
+    color: var(--white);
+}
+
+.footer ul {
+    font-size: .7em;
+    margin-top: 30px;
+    text-align: center;
+}
+.footer ul li {
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+.footer a {
+    margin: 0 12px;
+    color: var(--white);
+}
+.footer a:hover {
+    color: var(--grey);
+}
+
+.copyright {
+    font: .7em Verdana, sans-serif;
+    text-align: center;
+}
+
+
+/* ==================== Sous-menu ==================== */
+
+.dropdown {
+    position: relative;
+}
+
+/* Contenu du sous-menu fermé (on fait ça pour la transition height:0 vers height:auto) : */
+.dropdown-content {
+    height: 0;
+    overflow-y: hidden;
+    transform: scaleY(0);
+    transform-origin: 50% 0; /* Sans ceci, il va s'agrandir depuis le milieu */
+    transition: transform .3s ease;
+}
+
+.dropdown-content a {
+    display: block; /* Tous les liens en bloc (rangés verticalement) */
+}
+
+@media screen and (min-width: 1025px) { /* Uniquement desktop (Pour éviter de devoir annuler ces styles en tablette/mobile) */
+    
+    .dropdown .drop-a:after {
+        content: "\25BC"; /* ▼ Ce symbole après une class drop-a */
+        color: var(--white);
+        margin-left: 8px;
+        font-size: .8em;
+    }
+
+    .dropdown-content ul {
+        margin-top: 9px;
+        padding: 10px;
+        background-color: var(--blue5);
+        box-shadow: 0px 2px 6px 1px rgba(0, 0, 0, 0.3);
+    }
+
+    .dropdown-content {
+        position: absolute;
+        top: 39px;
+        left: 0;
+    }
+
+    /* Sous-menu ouvert avec survol (desktop) : */
+    .dropdown:hover .dropdown-content {
+        height: auto;
+        transform: scaleY(1);
+    }
+
+}
+
+
+/* ==================== Main ==================== */
+        
+.container {
+    max-width: 1280px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin: 0 auto;
+}
+
+
+/* ==================== Icones ==================== */
+
+@font-face {
+    font-family: "icomoon";
+    src: url("../font/icomoon.ttf") format("truetype");
+}
+
+[class*="icon-"] {
+    font-family: "icomoon";
+}
+.icon-moon:before {content: "\e91a";}
+.icon-sun:before {content: "\e9d4";}
+.icon-arrow-first:before {content: "\e90c";}
+.icon-arrow-last:before {content: "\e90e";}
+.icon-gamepad:before {content: "\e904";}
+.icon-dot:before {content: "\e901";}
+.icon-exit:before {content: "\e90b";}
+.icon-arrow-next:before {content: "\e902";}
+.icon-arrow-prev:before {content: "\e903";}
+.icon-home:before {content: "\e900";}
+.icon-tchat:before {content: "\e96c";}
+.icon-user:before {content: "\e971";}
+.icon-search:before {content: "\e986";}
+.icon-f:before {content: "\ea91";}
+.icon-i:before {content: "\ea92";}
+.icon-t:before {content: "\ea96";}
+.icon-y:before {content: "\ea9d";}
+.icon-star-empty:before {content: "\e9d7";}
+.icon-star-half:before {content: "\e9d8";}
+.icon-star-full:before {content: "\e9d9";}
+.icon-finger:before {content: "\ea04";}
+.icon-plus:before {content: "\ea0a";}
+.icon-minus:before {content: "\ea0b";}
+.icon-cross:before {content: "\ea0f";}
+.icon-valid:before {content: "\ea10";}
+.icon-arrow-right-bold:before {content: "\ea34";}
+.icon-arrow-right:before {content: "\ea3c";}
+.icon-shift:before {content: "\ea4f";}
+.icon-fire:before {content: "\e908";}
+.icon-quiz:before {content: "\e909";}
+.icon-characters:before {content: "\e907";}
+.icon-newspaper:before {content: "\e905";}
+.icon-pencil:before {content: "\e906";}
+.icon-image:before {content: "\e90d";}
+.icon-music:before {content: "\e911";}
+.icon-movie:before {content: "\e913";}
+.icon-book:before {content: "\e91f";}
+.icon-file-text:before {content: "\e922";}
+.icon-profile:before {content: "\e923";}
+.icon-file-text2:before {content: "\e926";}
+.icon-file-picture:before {content: "\e927";}
+.icon-pdf:before {content: "\eadf";}
+.icon-calculator:before {content: "\e940";}
+.icon-map:before {content: "\e94c";}
+.icon-tv:before {content: "\e95b";}
+.icon-earth:before {content: "\e9ca";}
+.icon-eye:before {content: "\e9ce";}
+.icon-circle-up:before {content: "\ea41";}
+.icon-circle-right:before {content: "\ea42";}
+.icon-circle-down:before {content: "\ea43";}
+.icon-circle-left:before {content: "\ea44";}
+.icon-p:before {content: "\ead1";}
+.icon-quotes-left:before {content: "\e977";}
+.icon-quotes-right:before {content: "\e978";}
+.icon-equalizer:before {content: "\e992";}
+.icon-param:before {content: "\e994";}
+.icon-stats-bars:before {content: "\e99c";}
+.icon-heart-empty:before {content: "\e90f";}
+.icon-warning:before {content: "\ea07";}
+.icon-question:before {content: "\e915";}
+.icon-gift:before {content: "\e90a";}
+.icon-bin:before {content: "\e9ad";}
+.icon-gem:before {content: "\e910";}
+.icon-cart:before {content: "\e93a";}
+.icon-boy:before {content: "\e917";}
+.icon-girl:before {content: "\e918";}
+.icon-animal:before {content: "\e916";}
+.icon-support:before {content: "\e914";}
+.icon-pokeball:before {content: "\e912";}
+.icon-trophy:before {content: "\e919";}
+.icon-unlocked:before {content: "\e990";}
+.icon-lock:before {content: "\e98f";}
+.icon-pushpin:before {content: "\e946";}
+.icon-envelop:before {content: "\e945";}
+
+
+/* ==================== modal-connect ==================== */
+
+.modal-connect-overlay {
+    display: none; /* Caché par défaut */
+    position: fixed;
+    z-index: 4;
+    left: 0;
+    top: 0;
+    width: 100%; /* Le modal-connect prend toute la largeur. C'est son enfant (modal-connect) qui aura une largeur limitée */
+    height: 100%;
+    overflow-y: auto; /* Scroll si nécessaire  */
+    background-color: rgba(0,0,0,0.7);
+}
+
+.modal-connect button {
+    border: none;
+    border-radius: 20px;
+    padding: 10px 15px;
+    margin: 5px auto 15px;
+    display: block;
+    background-color: var(--blue5);
+    color: var(--white);
+    cursor: pointer;
+}
+.modal-connect button:hover {
+    background-color: var(--blue6);
+}
+
+.modal-connect {
+    position: relative;
+    background-color: var(--white);
+    margin: calc(100vh/8) auto;
+    padding: 0;
+    max-width: 600px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.2);
+    animation-name: animemodal-connect;
+    animation-duration: 0.4s;
+}
+
+/* Ajout Animation du haut vers le bas (facultatif) */
+@keyframes animemodal-connect {
+    from {top: -300px; opacity: 0}
+    to {top: 0; opacity: 1}
+}
+
+.close-search,
+.close-connect {
+    color: white;
+    float: right;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+.close-search:before,
+.close-connect:before {
+    content : "\2573";
+}
+
+.close-search:hover,
+.close-search:focus,
+.close-connect:hover,
+.close-connect:focus {
+    color: var(--blue6);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-connect-header {
+    padding: 16px 18px 18px;
+    background-color: var(--blue5);
+    color: var(--white);
+}
+
+.modal-connect-body {
+    padding: 16px;
+}
+
+.modal-connect input[type="text"],
+.modal-connect input[type="password"] {
+    border: 1px solid var(--grey);
+    border-radius: 20px;
+    width: 100%;
+    outline: none;
+    padding: 10px 15px;
+    margin: 10px 0 20px;
+}
+
+
+.modal-connect-actif .modal-connect-overlay {
+    display: block; /* modal-connect-overlay apparaît si un parent gagne la class="modal-connect-actif" */
+}
+
+/* Si on veut bloquer le scroll si modal-connect ouvert : */
+body.modal-connect-actif,
+body.popup-search-actif {
+    height: 100vh;
+    overflow: hidden;
+}
+
+
+/* ==================== Search ==================== */
+
+.popup-search-actif .search-container {
+    position: fixed;
+    z-index: 5;
+    left: 0;
+    top: 0;
+    width: 100%; /* Le popup-connect prend toute la largeur. C'est son enfant (popup-connect-content) qui aura une largeur limitée */
+    height: 100%;
+    overflow-y: auto; /* Scroll si nécessaire  */
+    background-color: rgba(0,0,0,0.7);
+}
+
+
+.popup-search-actif .search-content {
+    position: relative;
+    background-color: var(--white);
+    margin: calc(100vh/8) auto;
+    max-width: 600px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.2);
+    -webkit-animation-name: animepopup-connect;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animepopup-connect;
+    animation-duration: 0.4s;
+}
+
+.search-header {
+    display: none;
+    background-color: var(--blue5);
+    color: var(--white);
+    width: 100%;
+    position: relative;
+    padding: 16px 18px 18px;
+}
+.popup-search-actif .search-header {
+    display: block;
+}
+
+.popup-search-actif .search {
+    display: block;
+    margin: 29px auto;
+    padding: 20px 0;
+    text-align: center;
+    width: 80%;
+    height: 66px;
+}
+.popup-search-actif .search input[type="search"] {
+    border: 1px solid var(--grey);
+    width: 94%;
+}
+.popup-search-actif .search button.submit {
+    padding: 10px 10px 11px 8px;
+}
+
+
+/* ==================== To top ==================== */
+
+.totop {
+    display: none; /* Caché par défaut */
+    border-radius: 5px;
+    background-color: var(--blue3);
+    cursor: pointer;
+    animation: totop-animation 2s; /* La transition avec display block/none est impossible, on ajoute l'animation pour cela */
+    padding: 4px 9px;
+    position: fixed;
+    right: 40px;
+    bottom: 40px;
+    z-index: 10;
+    transition: ease .3s;
+}
+
+
+@media screen and (min-width: 1025px) { /* Uniquement desktop */
+    .totop:hover {
+        background-color: #179BE1;
+    }
+}
+
+
+.totop::after {
+    content: "";
+    display: inline-block;
+    margin: 10px 2px 0 3px;
+    width: 10px;
+    height: 10px;
+    /* Dessin flèche css : */
+    border-right: 3px solid var(--white);
+    border-top: 3px solid var(--white);
+    transform: rotate(315deg);
+}
+
+.visible {
+    display: block; /* En gagnant la class "visible", le bouton apparaît */
+}
+
+@keyframes totop-animation {
+    from {opacity:0}
+    to {opacity:1}
+}
+
+
+/* ==================== Menu scroll ==================== */
+
+.header.fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: #a4aec9;
+
+    animation: scroll-menu-anime .9s; /* La transition est impossible avec position:fixed, on utilise donc animation css */
+}
+
+@keyframes scroll-menu-anime {
+    from {
+        opacity: 0;
+        /* height: 0; */
+        transform: translateY(-400px);
+    }
+    to {
+        opacity: 1;
+        /* height: 58px; */
+        transform: translateY(0px);
+    }
+}
+
+.header.fixed .header-top {
+    display: none;
+}
+
+.header.fixed .header-nav {
+    background-color: var(--blue5);
+}
+
+
+
+/* ######################## Tablette (ou certains mobiles en horizontal) ######################## */
+
+@media screen and (max-width: 1100px) {
+
+    .h1 {font-size: 2em}
+    .h2 {font-size: 1.5em}
+    .h3 {font-size: 1.25em}
+    .h4 {font-size: 1.1em}
+
+    .desktop {display: none}
+    .tablet,
+    .tablet-only {display: block}
+
+
+    /* ----- Blocs ----- */
+
+    .container-main-aside {
+        flex-direction: column;
+    }
+
+    .aside {
+        padding-top: 55px;
+        padding-left: 0;
+        width: 100%;
+    }
+
+    .box-padding {
+        padding: 10px;
+    }
+    
+
+    /* ========== Header ========== */
+
+    .logo img {
+        width: 88%; /* Note: Sur une image svg, les px ne marchent pas */
+        height: 88%;
+    }
+
+    /* ----- Menu Burger ----- */
+
+    .my-overlay {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 0; /* On passe à 100% quand le menu est actif */
+        height: 100%;
+        overflow: hidden;
+        background-color: rgba(0, 0, 0, 0.7)
+    }
+    .menu-active .my-overlay {
+        width: 100%;
+    }
+
+    .header-nav nav {
+        position: absolute;
+        z-index: 2;
+        top: 0;
+        left: 0;
+        border-top: 32px solid var(--blue6);
+        padding-top: 59px;
+        transition: .4s;
+        height: 100vh; /* Pour étirer un bloc en absolute vers le bas */
+
+        /* Menu non actif (méthode 1) : */
+        /* width: 0;
+        overflow: hidden; */
+
+        /* Menu non actif (méthode 2 - meilleur rendu durant la transition) : */
+        width: 300px;
+        transform: translateX(-400px);
+    }
+
+    .menu-active .header-nav nav {
+        overflow-y: auto;
+        background-color: var(--blue6);
+
+        /* Menu actif (méthode 1 : passage de width:0 à width:300px) : */
+        /* width: 300px; */
+
+        /* Menu actif (méthode 2 : passage de translateX(-300px) à translateX(0px)) : */
+        transform: translateX(0px);
+    }
+
+    .menu-active .header.fixed .header-nav nav {
+        border-top: 0;
+    }
+
+    .ul-1 {
+        margin-bottom: 34px;
+        /* Résoud problème de scroll en cas de scroll (sur les derniers liens) sur smartphone */
+    }
+
+    .header-nav nav ul { /* On vise les enfants et non les petits-enfants */
+        flex-direction: column;
+    }
+
+    .header-nav nav > ul > li { /* > c'est pour éviter de viser les liens du sous-menu */
+        border-top: 1px solid var(--white);
+        width: 100%;
+    }
+    .header-nav nav > ul > li:last-child {
+        border-bottom: 1px solid var(--white);
+    }
+
+    .header-nav nav ul li a {
+        padding: 8px 8px 8px 32px;
+        transition: 0.3s;
+    }
+
+    .header-nav .nav-icon > ul a { /* On vise tous les liens a */
+        border-radius: 0; 
+        display: block;
+    }
+
+    /* ----- Profil ----- */
+
+    .profil-dropdown {
+        top: 60px;
+    }
+
+
+    /* ==================== Sous-menu ==================== */
+
+    .dropdown-content {
+        clear: both;
+    }
+
+    .dropdown-content ul {
+        border-left: 5px solid var(--white);
+    }
+
+    
+    /* Sous-menu ouvert au clic (tablette/mobile) (on fait ça pour la transition height:0 vers height:auto) : */
+    .dropdown.active .dropdown-content {
+        height: auto;
+        transform: scaleY(1);
+    }
+
+    .ul-2 li {
+        border-top: 1px solid var(--white);
+    }
+
+    .drop-a,
+    .open-submenu {
+        float: left;
+    }
+
+    .drop-a {
+        width: 86%;
+    }
+
+    .open-submenu { /* div avec symbole + et - (tablette/mobile) */
+        padding: 10px;
+        height: 100%;
+        width: 14%;
+        border-left: 1px solid var(--white);
+        cursor: pointer;
+        background-color: var(--blue5);
+        color: #ebe2e2;
+        text-align: center;
+    }
+    
+    .open-submenu:after {
+        content: "+"; /* + */
+    }
+    
+    .dropdown.active .open-submenu:after {
+        content: "-"; /* -	Ce symbole après une class drop-a si active */
+    }
+
+
+    /* ========== Popup-connect & Search ========== */
+
+    .close-search,
+    .close-connect {
+        font-size: .9em;
+    }
+
+}
+
+
+
+/* ######################## Mobile ######################## */
+
+@media screen and (max-width: 600px) {
+
+    .h-box-shadow {
+        font-size: .9em;
+    }
+
+    .tablet-only,
+    .header-top {display: none}
+    .mobile-only {display: block}
+
+    .container {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .flex-mobile-column {
+        flex-direction: column;
+    }
+
+    .box-title {
+        font-size: 1.05em;
+        padding: 10px;
+    }
+
+    /* ========== Header ========== */
+
+    .header-nav nav {
+        border-top: 0;
+    }
+
+    .header-nav .nav-icon {
+        margin-right: 10px;
+    }
+    .header-nav .nav-icon a,
+    .header-nav .nav-icon span.drop-a {
+        padding: 10px;
+        margin: 0;
+    }
+    .header-nav .nav-icon .icon-user {
+        margin-right: 5px;
+    }
+    .header-nav .nav-icon .icon-user:hover,
+    .header-nav .nav-icon .icon-search:hover {
+        background-color: transparent; /* Remettre par défaut */
+    }
+
+    .logo {
+        margin-left: 15px;
+    }
+
+    .popup-connect-header,
+    .search-header {
+        padding: 10px 14px;
+    }
+
+    /* ----- Pagination ----- */
+
+    .pagination-container {
+        margin: 30px auto 10px;
+    }
+
+    .pagination a {
+        width: 1.9em;
+        height: 1.9em;
+        font-size: .9em;
+    }
+
+    /* ----- Profil ----- */
+
+    .profil-dropdown {
+        right: 1px;
+    }
+    .profil-dropdown::before {
+        right: 19px;
+    }
+
+    /* ========== To top ========== */
+
+    .totop {
+        right: 20px;
+        bottom: 20px;
+        background-color: rgba(68, 135, 190, 0.5);
+    }
+
+    /* ========== Popup-connect & Search ========== */
+
+    .popup-connect-content,
+    .popup-search-actif .search-content {
+        margin: 0 auto;
+    }
+
+
+}
