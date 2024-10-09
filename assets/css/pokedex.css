@@ -1,0 +1,247 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+:root { /* Déclaration de variables css */
+    --white: #fcfcfc;
+    --grey: #c4c4c4;
+    --grey2: #413e3e;
+    --black: #161515;
+    --green: #139d25;
+    --red: #FF3233;
+    --blue1: #eef6fd;
+    --blue2: #c5daf5;
+    --blue3: #82b5ec;
+    --blue4: #4caee2;
+    --blue5: #4487be;
+    --blue6: #375c86;
+    --blue7: #27355a;
+    --box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, .2);
+    --gradient: linear-gradient(#c5daf5, #eef6fd);
+}
+
+html {
+    scroll-behavior: smooth; /* Défilement doux quand on retourne en haut */
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font: 1em Verdana, sans-serif;
+    background-color: var(--black);
+    color: var(--black);
+}
+
+.main-pokedex {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    border-radius: 5px;
+
+    background-color: var(--red);
+}
+
+.container-pokedex .header {
+    border-bottom: 3px solid var(--black);
+}
+
+.container-pokedex h1 {
+    margin: 5px 20px;
+}
+
+
+.container-pokedex .body {
+    padding-bottom: 20px;
+}
+
+
+.round-box {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 0 15px;
+}
+
+.round-box .left {
+    position: relative;
+    background: radial-gradient(circle at center, #10FFFF, rgba(30, 185, 185, 0.8));
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    margin-left: 20px;
+    border: 2px solid var(--black); /* Bordure intérieure */
+}
+
+.round-box .left::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    width: calc(100% + 10px);
+    height: calc(100% + 10px);
+    border-radius: 50%;
+    border: 2px solid var(--black); /* Bordure extérieure */
+}
+
+.round-box .right {
+    max-width: 60px;
+    margin-right: 15px;
+}
+
+.round-box .right img {
+    max-width: 100%; /* Responsive */
+    height: auto;
+}
+
+
+.line-style {
+    display: flex;
+}
+
+.line-style .l1 {
+    border-bottom: 3px solid var(--black);
+}
+
+.line-style .l3 {
+    border-top: 3px solid var(--black);
+    position: absolute;
+    right: 0;
+}
+
+.line-style .l1,
+.line-style .l3 {
+    width: 50%;
+    height: 40px;
+    z-index: 1;
+    position: relative;
+}
+
+
+.line-style .l2 {
+    width: 100px;
+    height: 40px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    z-index: 2;
+    background-color: var(--red);
+}
+
+.line-style .l2::before {
+    content: '';
+    position: absolute;
+    width: 3px;
+    height: 320%;
+    background-color: var(--black);
+    transform: rotate(67deg);
+    top: 0px;
+    left: 102%;
+    transform-origin: top left;
+}
+
+
+.screen {
+    background-color: var(--white);
+    border: 2px solid var(--black);
+    margin: 30px;
+    padding: 20px;
+    min-height: 300px;
+}
+
+.screen .img {
+    height: 100px;
+    text-align: center;
+}
+
+.footer {
+    display: flex;
+    padding-bottom: 20px;
+}
+
+.dpad {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin: 0 30px;
+}
+
+.dpad > div {
+    background-color: var(--black);
+    border-radius: 5px;
+    position: absolute;
+}
+
+.dpad > div:hover {
+    background-color: var(--grey2);
+    cursor: pointer;
+}
+
+.dpad .up {
+    width: 30px;
+    height: 30px;
+    top: 0;
+    left: 35px;
+}
+
+.dpad .down {
+    width: 30px;
+    height: 30px;
+    bottom: 0;
+    left: 35px;
+}
+
+.dpad .left {
+    width: 30px;
+    height: 30px;
+    top: 35px;
+    left: 0;
+}
+
+.dpad .right {
+    width: 30px;
+    height: 30px;
+    top: 35px;
+    right: 0;
+}
+
+.screen-input {
+    background-color: #8BC644;
+    padding: 38px 12px;
+    border: 2px solid var(--black);
+    outline: none;
+    font: 1em Verdana, sans-serif;
+}
+
+.pad-buttons button {
+    display: block;
+    background-color: var(--black);
+    color: var(--white);
+    font: .8em sans-serif;
+    border-radius: 25px;
+    padding: 8px 12px;
+    margin: 10px 20px;
+    cursor: pointer;
+    border: none;
+    outline: none; /* Eviter bordure sur chrome */
+    transition: 0.2s ease;
+}
+.pad-buttons button :hover {
+    background-color: var(--grey2);
+    color: var(--white);
+}
+
+
+/* ######################## Bureau ######################## */
+
+@media screen and (min-width: 601px) {
+
+    .container-pokedex {
+        display: flex; /* À faire sur un parent (pour éviter d'appliquer display:flex sur tout le contenu du bloc) */
+        justify-content: center; /* Centrer horizontalement */
+        align-items: center; /* Centrer verticalement */
+        height: 100vh; /* Pour centrer dans la hauteur totale de la vue */
+    }
+
+}
