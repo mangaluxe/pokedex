@@ -4,8 +4,7 @@
 const pokedex = document.getElementById("pokedex");
 
 // const getAllBtn = document.getElementById("getAllBtn");
-const getByNameBtn = document.getElementById("getByNameBtn");
-const getByIdBtn = document.getElementById("getByIdBtn");
+const getPkmn = document.getElementById("get-pkmn");
 
 const pokemonId = document.getElementById("pokemon-id");
 const pokemonName = document.getElementById("pokemon-name");
@@ -25,6 +24,7 @@ const pokemonImage = document.getElementById("pokemon-image");
 const sound = document.getElementById("sound");
 
 const apiUrl = "https://pokeapi.co/api/v2/pokemon";
+// const apiUrl = "https://tyradex.vercel.app/api/v1/pokemon";
 
 const nbPokemonActuel = 1025;
 
@@ -59,6 +59,7 @@ const getPokemonByName = async (name) => {
             throw new Error("Pokémon non trouvé");
         }
         const data = await response.json(); // 💡 2. On récupère les données et on les convertit en Objet JS avec .json()
+        // console.log(data);
         showPokemonInfo(data); // 💡 3. On utilise les données récupérées
 
         currentId = data.id; // Mise à jour de l'ID actuel
@@ -80,6 +81,7 @@ const getPokemonById = async (id) => {
             throw new Error("Pokémon non trouvé");
         }
         const data = await response.json();
+        // console.log(data);
         showPokemonInfo(data);
 
         currentId = data.id; // Mise à jour de l'ID actuel
@@ -88,6 +90,25 @@ const getPokemonById = async (id) => {
         console.error("Erreur: ", error);
     }
 }
+
+
+/**
+ * Récupérer un pokémon
+ */
+const getPokemon = async () => {
+    const input = searchInput.value.trim().toLowerCase();
+    
+    if (input === '') {
+        await getRandomPokemon(); // Si l'entrée est vide, obtenir un Pokémon aléatoire
+    }
+    else if (!isNaN(input) && parseInt(input) > 0 && parseInt(input) <= nbPokemonActuel) {
+        await getPokemonById(parseInt(input)); // Si l'entrée est un nombre valide, obtenir le Pokémon par ID
+    }
+    else {
+        await getPokemonByName(input); // Sinon, essayer d'obtenir le Pokémon par nom
+    }
+}
+
 
 
 /**
@@ -258,22 +279,8 @@ window.addEventListener('devicemotion', (event) => { // Secousse du téléphone
 //     getAllBtn.addEventListener("click", getPokemons);
 // }
 
-if (getByNameBtn) {
-    getByNameBtn.addEventListener("click", () => {
-        const name = searchInput.value.toLowerCase();
-
-        getPokemonByName(name);
-    });
-}
-
-if (getByIdBtn) {
-    getByIdBtn.addEventListener("click", () => {
-        const id = parseInt(searchInput.value);
-
-        if (!isNaN(id) && id > 0 && id <= nbPokemonActuel) {
-            getPokemonById(id);
-        }
-    });
+if (getPkmn) {
+    getPkmn.addEventListener("click", getPokemon);
 }
 
 if (pokemonPrevious) {
