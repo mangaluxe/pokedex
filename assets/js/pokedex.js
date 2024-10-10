@@ -1,10 +1,11 @@
 "use strict";
 
-
 const pokedex = document.getElementById("pokedex");
+const dexterBtn = document.getElementById("dexter-btn");
 
 const getPkmn = document.getElementById("get-pkmn");
 
+const soundOut = document.getElementById("sound-out");
 const pokemonId = document.getElementById("pokemon-id");
 const pokemonName = document.getElementById("pokemon-name");
 const pokemonWeight = document.getElementById("pokemon-weight");
@@ -20,16 +21,12 @@ const pokemonDown = document.getElementById("pokemon-down");
 const searchInput = document.getElementById("search-input");
 const pokemonImage = document.getElementById("pokemon-image");
 
-const sound = document.getElementById("sound");
-
 const apiUrl = "https://pokeapi.co/api/v2/pokemon";
 // const apiUrl = "https://tyradex.vercel.app/api/v1/pokemon";
 
 const nbPokemonActuel = 1025;
 
 let currentId = 1; // Id Pokémon actuel (pour les boutons Précédent/Suivant)
-
-
 
 
 
@@ -93,11 +90,11 @@ function capitalizeFirstLetter(string) {
  */
 function cries(audio) {
     /* Dans le HTML:
-    <audio id="sound" src="#"></audio>
+    <audio id="sound-out" src="#"></audio>
     */
 
-    sound.src = audio;
-    sound.play();
+    soundOut.src = audio;
+    soundOut.play();
 }
 
 
@@ -114,12 +111,6 @@ const showPokemonInfo = (pokemon) => {
     pokemonHeight.textContent = (pokemon.height / 10) + " m";
     pokemonTypes.textContent = capitalizeFirstLetter(pokemon.types.map(type => type.type.name).join(', '));
     pokemonAbilities.textContent = capitalizeFirstLetter(pokemon.abilities.map(ability => ability.ability.name).join(', '));
-
-    /* Dans le HTML:
-    <audio id="sound" src="#"></audio>
-    */
-    // sound.src = pokemon.cries.latest;
-    // sound.play();
 
     cries(pokemon.cries.latest);
 }
@@ -226,14 +217,15 @@ if (pokedex) {
 /**
  * Pokémon aléatoire
  */
-const getRandomPokemon = async () => {
+// const getRandomPokemon = () => { // Si on veit mettre dans une variable et utiliser fonction fléchée
+function getRandomPokemon() {
     const randomId = Math.floor(Math.random() * nbPokemonActuel) + 1; // ID aléatoire entre 1 et nbPokemonActuel
-    await getPokemonByIdentifier(randomId);
+    getPokemonByIdentifier(randomId);
 }
 
 
-window.addEventListener('devicemotion', (event) => { // Secousse du téléphone
-    const acceleration = event.accelerationIncludingGravity;
+window.addEventListener('devicemotion', (e) => { // Secousse du téléphone
+    const acceleration = e.accelerationIncludingGravity;
     
     // Ignore les petits mouvements :
     if (acceleration.x > 15 || acceleration.y > 15 || acceleration.z > 15) {
@@ -259,4 +251,11 @@ if (pokemonUp) {
 }
 if (pokemonDown) {
     pokemonDown.addEventListener("click", () => getPokemonByIdentifier(nbPokemonActuel));
+}
+
+if (dexterBtn) {
+    dexterBtn.addEventListener("click", () => {
+        soundOut.src = 'assets/audio/dexter.mp3';
+        soundOut.play();
+    });
 }

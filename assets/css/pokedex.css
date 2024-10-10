@@ -71,6 +71,7 @@ body {
     height: 50px;
     margin-left: 20px;
     border: 2px solid var(--black); /* Bordure intérieure */
+    cursor: pointer;
 }
 
 .round-box .left::before {
