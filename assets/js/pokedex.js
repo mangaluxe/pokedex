@@ -30,19 +30,22 @@ let currentId = 1; // Id Pokémon actuel (pour les boutons Précédent/Suivant)
 
 
 
-// Récupérer tous les pokémons (test dans console.log)
-const getPokemons = async () => {
-    try {
-        const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0");
-        const data = await response.json();
+// // Récupérer tous les pokémons (test dans console.log)
+// const getPokemons = async () => {
+//     try {
+//         const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0");
+//         const data = await response.json();
         
-        console.log("Données complètes de l'API :", data);
-        console.log("Nombre total de Pokémon :", data.count);
-    }
-    catch (error) {
-        console.error("Erreur: ", error);
-    }
-}
+//         console.log("Données complètes de l'API :", data);
+//         console.log("Nombre total de Pokémon :", data.count);
+//     }
+//     catch (error) {
+//         console.error("Erreur: ", error);
+//     }
+// }
+
+
+const sound = document.getElementById("pikachu-cri");
 
 
 /**
@@ -57,6 +60,12 @@ const getPokemonByName = async (name) => {
         }
         const data = await response.json(); // 💡 2. On récupère les données et on les convertit en Objet JS avec .json()
         showPokemonInfo(data); // 💡 3. On utilise les données récupérées
+
+        // Son pikachu si id==25
+        if (id === 25) {
+            sound.currentTime = 0;
+            sound.play();
+        }
 
         currentId = data.id; // Mise à jour de l'ID actuel
     }
@@ -78,6 +87,12 @@ const getPokemonById = async (id) => {
         }
         const data = await response.json();
         showPokemonInfo(data);
+
+        // Son pikachu si id==25
+        if (id === 25) {
+            sound.currentTime = 0;
+            sound.play();
+        }
 
         currentId = data.id; // Mise à jour de l'ID actuel
     }
@@ -209,10 +224,29 @@ if (pokedex) {
 
 // -----
 
-
-if (getAllBtn) {
-    getAllBtn.addEventListener("click", getPokemons);
+/**
+ * Pokémon aléatoire
+ */
+const getRandomPokemon = async () => {
+    const randomId = Math.floor(Math.random() * nbPokemonActuel) + 1; // Id aléatoire entre 1 et nbPokemonActuel
+    await getPokemonById(randomId);
 }
+
+window.addEventListener('devicemotion', (event) => { // Secousse du téléphone
+    const acceleration = event.accelerationIncludingGravity;
+    
+    // Ignore les petits mouvements :
+    if (acceleration.x > 15 || acceleration.y > 15 || acceleration.z > 15) {
+        getRandomPokemon();
+    }
+});
+
+// -----
+
+
+// if (getAllBtn) {
+//     getAllBtn.addEventListener("click", getPokemons);
+// }
 
 if (getByNameBtn) {
     getByNameBtn.addEventListener("click", () => {
