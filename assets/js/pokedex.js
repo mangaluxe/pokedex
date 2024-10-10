@@ -3,7 +3,7 @@
 
 const pokedex = document.getElementById("pokedex");
 
-const getAllBtn = document.getElementById("getAllBtn");
+// const getAllBtn = document.getElementById("getAllBtn");
 const getByNameBtn = document.getElementById("getByNameBtn");
 const getByIdBtn = document.getElementById("getByIdBtn");
 
@@ -21,6 +21,8 @@ const pokemonDown = document.getElementById("pokemon-down");
 
 const searchInput = document.getElementById("search-input");
 const pokemonImage = document.getElementById("pokemon-image");
+
+const sound = document.getElementById("sound");
 
 const apiUrl = "https://pokeapi.co/api/v2/pokemon";
 
@@ -45,8 +47,6 @@ let currentId = 1; // Id Pokémon actuel (pour les boutons Précédent/Suivant)
 // }
 
 
-const sound = document.getElementById("pikachu-cri");
-
 
 /**
  * Récupérer un pokémon par son nom
@@ -60,12 +60,6 @@ const getPokemonByName = async (name) => {
         }
         const data = await response.json(); // 💡 2. On récupère les données et on les convertit en Objet JS avec .json()
         showPokemonInfo(data); // 💡 3. On utilise les données récupérées
-
-        // Son pikachu si id==25
-        if (id === 25) {
-            sound.currentTime = 0;
-            sound.play();
-        }
 
         currentId = data.id; // Mise à jour de l'ID actuel
     }
@@ -88,12 +82,6 @@ const getPokemonById = async (id) => {
         const data = await response.json();
         showPokemonInfo(data);
 
-        // Son pikachu si id==25
-        if (id === 25) {
-            sound.currentTime = 0;
-            sound.play();
-        }
-
         currentId = data.id; // Mise à jour de l'ID actuel
     }
     catch (error) {
@@ -115,6 +103,20 @@ function capitalizeFirstLetter(string) {
 
 
 /**
+ * Jouer cri d'un Pokémon
+ */
+function cries(audio) {
+    /* Dans le HTML:
+    <audio id="sound" src="#"></audio>
+    */
+
+    sound.src = audio;
+    sound.play();
+}
+
+
+
+/**
  * Affiche les infos d'un Pokémon
  */
 const showPokemonInfo = (pokemon) => {
@@ -126,6 +128,14 @@ const showPokemonInfo = (pokemon) => {
     pokemonHeight.textContent = (pokemon.height / 10) + " m";
     pokemonTypes.textContent = capitalizeFirstLetter(pokemon.types.map(type => type.type.name).join(', '));
     pokemonAbilities.textContent = capitalizeFirstLetter(pokemon.abilities.map(ability => ability.ability.name).join(', '));
+
+    /* Dans le HTML:
+    <audio id="sound" src="#"></audio>
+    */
+    // sound.src = pokemon.cries.latest;
+    // sound.play();
+
+    cries(pokemon.cries.latest);
 }
 
 
