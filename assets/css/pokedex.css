@@ -217,6 +217,7 @@ body {
     border: 2px solid var(--black);
     outline: none;
     font: 1em Verdana, sans-serif;
+    width: 185px;
 }
 
 .pad-buttons {
@@ -256,6 +257,10 @@ body {
     .mobile-column {
         flex-direction: row;
         align-items: normal;
+    }
+
+    .screen-input {
+        width: auto;
     }
 
     .pad-buttons {
