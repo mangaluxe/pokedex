@@ -19,6 +19,7 @@
     --blue6: #375c86;
     --blue7: #27355a;
     --box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, .2);
+    --box-shadow-inset: inset 2px 2px 12px rgba(0, 0, 0, .5);
     --gradient: linear-gradient(#c5daf5, #eef6fd);
 }
 
@@ -39,8 +40,8 @@ body {
     max-width: 600px;
     margin: 0 auto;
     border-radius: 5px;
-
     background-color: var(--red);
+    box-shadow: var(--box-shadow-inset);
 }
 
 .container-pokedex .header {
@@ -51,16 +52,10 @@ body {
     margin: 5px 20px;
 }
 
-
-.container-pokedex .body {
-    padding-bottom: 20px;
-}
-
 .mobile-column {
     flex-direction: column;
     align-items: center;
 }
-
 
 .round-box {
     display: flex;
@@ -151,7 +146,8 @@ body {
     border: 2px solid var(--black);
     margin: 30px;
     padding: 20px;
-    min-height: 300px;
+    min-height: 276px;
+    box-shadow: var(--box-shadow-inset);
 }
 
 .screen .img {
@@ -213,6 +209,7 @@ body {
 
 .screen-input {
     background-color: #8BC644;
+    box-shadow: var(--box-shadow-inset);
     padding: 38px 12px;
     border: 2px solid var(--black);
     outline: none;
@@ -227,6 +224,7 @@ body {
 .pad-buttons button {
     display: block;
     background-color: var(--black);
+    box-shadow: var(--box-shadow-inset);
     color: var(--white);
     font: .8em sans-serif;
     border-radius: 25px;

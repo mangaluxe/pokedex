@@ -3,7 +3,6 @@
 
 const pokedex = document.getElementById("pokedex");
 
-// const getAllBtn = document.getElementById("getAllBtn");
 const getPkmn = document.getElementById("get-pkmn");
 
 const pokemonId = document.getElementById("pokemon-id");
@@ -32,64 +31,27 @@ let currentId = 1; // Id Pokémon actuel (pour les boutons Précédent/Suivant)
 
 
 
-// // Récupérer tous les pokémons (test dans console.log)
-// const getPokemons = async () => {
-//     try {
-//         const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0");
-//         const data = await response.json();
-        
-//         console.log("Données complètes de l'API :", data);
-//         console.log("Nombre total de Pokémon :", data.count);
-//     }
-//     catch (error) {
-//         console.error("Erreur: ", error);
-//     }
-// }
-
 
 
 /**
- * Récupérer un pokémon par son nom
- * @param {string} name : Nom du Pokémon
+ * Récupérer un pokémon par son nom ou son ID
+ * @param {string|number} identifier : Nom ou ID du Pokémon
  */
-const getPokemonByName = async (name) => {
+const getPokemonByIdentifier = async (identifier) => {
     try {
-        const response = await fetch(`${apiUrl}/${name}`); // 💡 1. On envoie la requête vers cette page
-        if (!response.ok) {
-            throw new Error("Pokémon non trouvé");
-        }
-        const data = await response.json(); // 💡 2. On récupère les données et on les convertit en Objet JS avec .json()
-        // console.log(data);
-        showPokemonInfo(data); // 💡 3. On utilise les données récupérées
-
-        currentId = data.id; // Mise à jour de l'ID actuel
-    }
-    catch (error) {
-        console.error("Erreur: ", error);
-    }
-}
-
-
-/**
- * Récupérer un pokémon par son id
- * @param {number} id : ID du Pokémon
- */
-const getPokemonById = async (id) => {
-    try {
-        const response = await fetch(`${apiUrl}/${id}`);
+        const response = await fetch(`${apiUrl}/${identifier}`);
         if (!response.ok) {
             throw new Error("Pokémon non trouvé");
         }
         const data = await response.json();
-        // console.log(data);
         showPokemonInfo(data);
-
         currentId = data.id; // Mise à jour de l'ID actuel
     }
     catch (error) {
         console.error("Erreur: ", error);
     }
 }
+
 
 
 /**
@@ -99,13 +61,16 @@ const getPokemon = async () => {
     const input = searchInput.value.trim().toLowerCase();
     
     if (input === '') {
-        await getRandomPokemon(); // Si l'entrée est vide, obtenir un Pokémon aléatoire
-    }
-    else if (!isNaN(input) && parseInt(input) > 0 && parseInt(input) <= nbPokemonActuel) {
-        await getPokemonById(parseInt(input)); // Si l'entrée est un nombre valide, obtenir le Pokémon par ID
-    }
+        await getRandomPokemon(); // Pokémon aléatoire si champ vide
+    } 
     else {
-        await getPokemonByName(input); // Sinon, essayer d'obtenir le Pokémon par nom
+        const id = parseInt(input);
+        if (!isNaN(id) && id > 0 && id <= nbPokemonActuel) {
+            await getPokemonByIdentifier(id); // Si l'entrée est un nombre, obtenir Pokémon par ID
+        }
+        else {
+            await getPokemonByIdentifier(input); // Sinon obtenir Pokémon par nom
+        }
     }
 }
 
@@ -167,8 +132,11 @@ const showPokemonInfo = (pokemon) => {
 const getNextPokemon = () => {
     if (currentId < nbPokemonActuel) {
         currentId++;
-        getPokemonById(currentId);
     }
+    else {
+        currentId = 1; // Retour au 1er Pokémon si on atteint le dernier
+    }
+    getPokemonByIdentifier(currentId);
 }
 
 /**
@@ -177,11 +145,11 @@ const getNextPokemon = () => {
 const getPreviousPokemon = () => {
     if (currentId > 1) {
         currentId--;
-        getPokemonById(currentId);
     }
     else {
-        getPokemonById(1);
+        currentId = nbPokemonActuel; // Aller au dernier Pokémon si on est au 1er
     }
+    getPokemonByIdentifier(currentId);
 }
 
 
@@ -195,10 +163,10 @@ function functKeyup(e) {
         getNextPokemon();
     }
     if (e.key === "ArrowUp") {
-        getPokemonById(1);
+        getPokemonByIdentifier(1)
     }
     if (e.key === "ArrowDown") {
-        getPokemonById(nbPokemonActuel);
+        getPokemonByIdentifier(nbPokemonActuel);
     }
 }
 
@@ -219,7 +187,7 @@ function dragEnd(e) {
     let diff = startX / endX;
     // console.log(diff);
     if (diff > 0.97 && diff < 1.03) { // Marche aussi: if (Math.abs(diff) < 0.03) {
-        return; // Met fin à la fonction
+        return;
     }
 
     if (endX < startX) {
@@ -259,9 +227,10 @@ if (pokedex) {
  * Pokémon aléatoire
  */
 const getRandomPokemon = async () => {
-    const randomId = Math.floor(Math.random() * nbPokemonActuel) + 1; // Id aléatoire entre 1 et nbPokemonActuel
-    await getPokemonById(randomId);
+    const randomId = Math.floor(Math.random() * nbPokemonActuel) + 1; // ID aléatoire entre 1 et nbPokemonActuel
+    await getPokemonByIdentifier(randomId);
 }
+
 
 window.addEventListener('devicemotion', (event) => { // Secousse du téléphone
     const acceleration = event.accelerationIncludingGravity;
@@ -275,10 +244,6 @@ window.addEventListener('devicemotion', (event) => { // Secousse du téléphone
 // -----
 
 
-// if (getAllBtn) {
-//     getAllBtn.addEventListener("click", getPokemons);
-// }
-
 if (getPkmn) {
     getPkmn.addEventListener("click", getPokemon);
 }
@@ -290,8 +255,8 @@ if (pokemonNext) {
     pokemonNext.addEventListener("click", getNextPokemon);
 }
 if (pokemonUp) {
-    pokemonUp.addEventListener("click", () => getPokemonById(1));
+    pokemonUp.addEventListener("click", () => getPokemonByIdentifier(1));
 }
 if (pokemonDown) {
-    pokemonDown.addEventListener("click", () => getPokemonById(nbPokemonActuel));
+    pokemonDown.addEventListener("click", () => getPokemonByIdentifier(nbPokemonActuel));
 }
