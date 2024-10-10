@@ -23,7 +23,7 @@
                     <div class="right"><img src="assets/img/pokeball.png" alt="Pokéball"></div>
                 </div>
     
-                <div class="line-style">
+                <div class="line-style flex">
                     <div class="l1"></div>
                     <div class="l2"></div>
                     <div class="l3"></div>
@@ -46,22 +46,26 @@
     
             
             <footer class="footer">
-    
-                <div class="dpad">
-                    <div class="up" id="pokemon-up"></div>
-                    <div class="down" id="pokemon-down"></div>
-                    <div class="left" id="pokemon-previous"></div>
-                    <div class="right" id="pokemon-next"></div>
-                </div>
-    
-                <form action="#">
-                    <input type="text" placeholder="Nom ou N° Pokédex" id="search-input" class="screen-input">
+        
+                <form action="#" class="flex mobile-column">
+
+                    <div class="flex">
+                        <div class="dpad inline-block">
+                            <div class="up" id="pokemon-up"></div>
+                            <div class="down" id="pokemon-down"></div>
+                            <div class="left" id="pokemon-previous"></div>
+                            <div class="right" id="pokemon-next"></div>
+                        </div>
+
+                        <input type="text" placeholder="Nom ou N° Pokédex" id="search-input" class="screen-input">
+                    </div>
+
+                    <div class="pad-buttons">
+                        <button id="getByNameBtn" class="btn" type="button">Rechercher par nom</button>
+                        <button id="getByIdBtn" class="btn" type="submit">Rechercher par id</button>
+                    </div>
+
                 </form>
-    
-                <div class="pad-buttons">
-                    <button id="getByNameBtn" class="btn">Rechercher par nom</button>
-                    <button id="getByIdBtn" class="btn">Rechercher par id</button>
-                </div>
     
             </footer>
     

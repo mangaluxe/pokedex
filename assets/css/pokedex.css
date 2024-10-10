@@ -56,6 +56,11 @@ body {
     padding-bottom: 20px;
 }
 
+.mobile-column {
+    flex-direction: column;
+    align-items: center;
+}
+
 
 .round-box {
     display: flex;
@@ -94,8 +99,7 @@ body {
     height: auto;
 }
 
-
-.line-style {
+.flex {
     display: flex;
 }
 
@@ -157,6 +161,7 @@ body {
 
 .footer {
     display: flex;
+
     padding-bottom: 20px;
 }
 
@@ -214,6 +219,10 @@ body {
     font: 1em Verdana, sans-serif;
 }
 
+.pad-buttons {
+    margin-top: 25px;
+}
+
 .pad-buttons button {
     display: block;
     background-color: var(--black);
@@ -243,5 +252,15 @@ body {
         align-items: center; /* Centrer verticalement */
         height: 100vh; /* Pour centrer dans la hauteur totale de la vue */
     }
+
+    .mobile-column {
+        flex-direction: row;
+        align-items: normal;
+    }
+
+    .pad-buttons {
+        margin-top: 0;
+    }
+    
 
 }
