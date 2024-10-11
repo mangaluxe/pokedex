@@ -3,7 +3,7 @@
 const pokedex = document.getElementById("pokedex");
 const dexterBtn = document.getElementById("dexter-btn");
 
-const getPkmn = document.getElementById("get-pkmn");
+const formPkmn = document.getElementById("form-pkmn");
 
 const soundOut = document.getElementById("sound-out");
 const pokemonId = document.getElementById("pokemon-id");
@@ -54,19 +54,19 @@ const getPokemonByIdentifier = async (identifier) => {
 /**
  * Récupérer un pokémon
  */
-const getPokemon = async () => {
+const getPokemon = () => {
     const input = searchInput.value.trim().toLowerCase();
     
     if (input === '') {
-        await getRandomPokemon(); // Pokémon aléatoire si champ vide
+        getRandomPokemon(); // Pokémon aléatoire si champ vide
     } 
     else {
         const id = parseInt(input);
         if (!isNaN(id) && id > 0 && id <= nbPokemonActuel) {
-            await getPokemonByIdentifier(id); // Si l'entrée est un nombre, obtenir Pokémon par ID
+            getPokemonByIdentifier(id); // Si l'entrée est un nombre, obtenir Pokémon par ID
         }
         else {
-            await getPokemonByIdentifier(input); // Sinon obtenir Pokémon par nom
+            getPokemonByIdentifier(input); // Sinon obtenir Pokémon par nom
         }
     }
 }
@@ -224,21 +224,40 @@ function getRandomPokemon() {
 }
 
 
-window.addEventListener('devicemotion', (e) => { // Secousse du téléphone
-    const acceleration = e.accelerationIncludingGravity;
-    
-    // Ignore les petits mouvements :
-    if (acceleration.x > 15 || acceleration.y > 15 || acceleration.z > 15) {
+let isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+let permissionGranted = false;
+
+function handleShake(event) {
+    if (event.rotationRate.alpha > 50 || event.rotationRate.beta > 50 || event.rotationRate.gamma > 50) {
         getRandomPokemon();
     }
-});
+}
+
+if (isIOS) {
+    window.addEventListener('touchend', function() { // Pour iOS, on ajoute un écouteur d'événement touchend qui demandera la permission d'utiliser les données de mouvement. Si la permission est accordée, on utilise l'événement devicemotion avec une fonction handleShake qui vérifie la vitesse de rotation de l'appareil
+        if (!permissionGranted) {
+            DeviceMotionEvent.requestPermission()
+                .then(response => {
+                    if (response === 'granted') {
+                        permissionGranted = true;
+                        window.addEventListener('devicemotion', handleShake);
+                    }
+                })
+                .catch(console.error);
+        }
+    });
+}
+else {
+    window.addEventListener('devicemotion', (e) => { // Secousse du téléphone
+        const acceleration = e.accelerationIncludingGravity;
+        if (acceleration.x > 15 || acceleration.y > 15 || acceleration.z > 15) {
+            getRandomPokemon();
+        }
+    });
+}
 
 // -----
 
-
-if (getPkmn) {
-    getPkmn.addEventListener("click", getPokemon);
-}
 
 if (pokemonPrevious) {
     pokemonPrevious.addEventListener("click", getPreviousPokemon);
@@ -257,5 +276,13 @@ if (dexterBtn) {
     dexterBtn.addEventListener("click", () => {
         soundOut.src = 'assets/audio/dexter.mp3';
         soundOut.play();
+    });
+}
+
+if (formPkmn) { // Clic sur bouton Recherche
+    formPkmn.addEventListener('submit', function(e) {
+        e.preventDefault(); // Empêche la soumission du formulaire
+
+        getPokemon(); // Appelle la fonction pour récupérer un Pokémon
     });
 }
