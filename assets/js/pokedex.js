@@ -29,6 +29,16 @@ const nbPokemonActuel = 1025;
 let currentId = 1; // Id Pokémon actuel (pour les boutons Précédent/Suivant)
 
 
+// Récupérer ou initialiser la liste des Pokémon capturés dans localStorage
+let pokemonList = JSON.parse(localStorage.getItem('pokemonList')) || [];
+
+// Ajouter Pokémon de départ si "pokemonList" est vide
+if (pokemonList.length === 0) {
+    pokemonList.push(25); // Ajouter Pikachu
+    // pokemonList.push(10); // Ajouter Chenipan
+    localStorage.setItem('pokemonList', JSON.stringify(pokemonList));
+}
+
 
 /**
  * Récupérer un pokémon par son nom ou son ID
@@ -143,6 +153,15 @@ const getPreviousPokemon = () => {
     getPokemonByIdentifier(currentId);
 }
 
+/**
+ * Pokémon aléatoire
+ */
+// const getRandomPokemon = () => { // Si on veut mettre dans une variable et utiliser fonction fléchée
+function getRandomPokemon() {
+    const randomId = Math.floor(Math.random() * nbPokemonActuel) + 1; // ID aléatoire entre 1 et nbPokemonActuel
+    getPokemonByIdentifier(randomId);
+}
+
 
 // --- Au clavier (facultatif) ---
 
@@ -177,7 +196,7 @@ function dragEnd(e) {
     // Ignore les petits mouvements :
     let diff = startX / endX;
     // console.log(diff);
-    if (diff > 0.97 && diff < 1.03) { // Marche aussi: if (Math.abs(diff) < 0.03) {
+    if (diff > 0.95 && diff < 1.05) { // Marche aussi: if (Math.abs(diff) < 0.05) {
         return;
     }
 
@@ -212,23 +231,13 @@ if (pokedex) {
     pokedex.addEventListener("touchend", dragEnd);
 }
 
-// -----
-
-/**
- * Pokémon aléatoire
- */
-// const getRandomPokemon = () => { // Si on veit mettre dans une variable et utiliser fonction fléchée
-function getRandomPokemon() {
-    const randomId = Math.floor(Math.random() * nbPokemonActuel) + 1; // ID aléatoire entre 1 et nbPokemonActuel
-    getPokemonByIdentifier(randomId);
-}
-
+// ----- Gyroscope -----
 
 let isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 let permissionGranted = false;
 
-function handleShake(event) {
-    if (event.rotationRate.alpha > 50 || event.rotationRate.beta > 50 || event.rotationRate.gamma > 50) {
+function handleShake(e) {
+    if (e.rotationRate.alpha > 50 || e.rotationRate.beta > 50 || e.rotationRate.gamma > 50) {
         getRandomPokemon();
     }
 }
@@ -247,16 +256,68 @@ if (isIOS) {
         }
     });
 }
-else {
+else { // Android
     window.addEventListener('devicemotion', (e) => { // Secousse du téléphone
         const acceleration = e.accelerationIncludingGravity;
-        if (acceleration.x > 15 || acceleration.y > 15 || acceleration.z > 15) {
+        if (acceleration.x > 50 || acceleration.y > 50 || acceleration.z > 50) {
             getRandomPokemon();
         }
     });
 }
 
 // -----
+
+
+/**
+ * Afficher liste de Pokémon capturés
+ */
+const afficherListeCaptures = async () => {
+    const capturedPokemonList = document.getElementById('captured-pokemon-list');
+    capturedPokemonList.innerHTML = ''; // Vider la liste existante
+
+    const pokemonCapturedIds = JSON.parse(localStorage.getItem('pokemonList')) || [];
+
+    if (pokemonCapturedIds.length === 0) {
+        capturedPokemonList.innerHTML = '<li>Aucun Pokémon capturé.</li>';
+    }
+    else {
+        for (const id of pokemonCapturedIds) {
+            try {
+                const response = await fetch(`${apiUrl}/${id}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    const item = document.createElement('li');
+                    item.innerHTML = `
+                        <img src="${data.sprites.front_default}" alt="${data.name}">
+                        ${capitalizeFirstLetter(data.name)} (id: ${id})
+                    `;
+                    capturedPokemonList.appendChild(item);
+                }
+            }
+            catch (error) {
+                console.error(`Erreur récupération Pokémon ${id}:`, error);
+            }
+        }
+    }
+};
+
+
+afficherListeCaptures(); // Afficher liste de pokémon attrapés au chargement
+
+
+if (dexterBtn) {
+    dexterBtn.addEventListener('click', function() {
+        if (pokedex.classList.contains('showlist')) {
+            pokedex.classList.remove('showlist');
+        }
+        else {
+            pokedex.classList.add('showlist');
+
+            soundOut.src = 'assets/audio/dexter.mp3';
+            soundOut.play();
+        }
+    });
+}
 
 
 if (pokemonPrevious) {
@@ -270,13 +331,6 @@ if (pokemonUp) {
 }
 if (pokemonDown) {
     pokemonDown.addEventListener("click", () => getPokemonByIdentifier(nbPokemonActuel));
-}
-
-if (dexterBtn) {
-    dexterBtn.addEventListener("click", () => {
-        soundOut.src = 'assets/audio/dexter.mp3';
-        soundOut.play();
-    });
 }
 
 if (formPkmn) { // Clic sur bouton Recherche

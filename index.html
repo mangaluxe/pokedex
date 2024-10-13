@@ -2,12 +2,12 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Pokédex</title>
-    <link rel="stylesheet" href="assets/css/pokedex.css">
+    <link rel="stylesheet" href="assets/css/pokemon.css?v=2">
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 </head>
-<body>
+<body class="pokedex">
 
     <div class="container-pokedex">
 
@@ -20,7 +20,7 @@
     
                 <div class="round-box">
                     <div class="left" id="dexter-btn"></div>
-                    <div class="right"><img src="assets/img/pokeball.png" alt="Pokéball"></div>
+                    <div class="right"><a href="capture.html"><img src="assets/img/pokeball.png" alt="Pokéball"></a></div>
                 </div>
     
                 <div class="line-style flex">
@@ -30,14 +30,19 @@
                 </div>
     
                 <div class="screen" id="pokedex">
-                    <div class="img" id="pokemon-image"></div>
-    
-                    <div>ID : <span id="pokemon-id"></span></div>
-                    <div>Nom : <span id="pokemon-name"></span></div>
-                    <div>Poids : <span id="pokemon-weight"></span></div>
-                    <div>Taille : <span id="pokemon-height"></span></div>
-                    <div>Type(s) : <span id="pokemon-types"></span></div>
-                    <div>Capacités : <span id="pokemon-abilities"></span></div>
+                    <div class="info"> <!-- Affiché par défaut -->
+                        <div class="img" id="pokemon-image"></div>
+                        <div>ID : <span id="pokemon-id"></span></div>
+                        <div>Nom : <span id="pokemon-name"></span></div>
+                        <div>Poids : <span id="pokemon-weight"></span></div>
+                        <div>Taille : <span id="pokemon-height"></span></div>
+                        <div>Type(s) : <span id="pokemon-types"></span></div>
+                        <div>Capacités : <span id="pokemon-abilities"></span></div>
+                    </div>
+                    <div class="list"> <!-- caché par défaut -->
+                        <p>Pokémon capturés :</p>
+                        <ul id="captured-pokemon-list"></ul>
+                    </div>
                 </div>
 
                 <audio id="sound-out" src="#"></audio>
