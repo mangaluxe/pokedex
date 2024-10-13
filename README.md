@@ -17,11 +17,11 @@ Bienvenue dans mon Pokédex interactif ! Ce projet vous permet de capturer des P
 - **Gestes Tactiles** : Glissez sur l'écran pour parcourir les Pokémon.
 
 ### Interactions Supplémentaires
-- **Secousse** : Secouez votre appareil pour faire apparaître un Pokémon aléatoire.
+- **Secousse** : Secouez votre appareil afficher un Pokémon aléatoire dans le Pokédex.
 
 ### Audio
 - **Effets Sonores** : Écoutez le cri du Pokémon affiché.
-- **Musique de Fond** : Profitez d'une ambiance immersive avec la possibilité de lire ou de mettre en pause la musique.
+- **Musique de Fond** : Possibilité de lire ou de mettre en pause la musique en touchant l'écran durant la capture de Pokémon.
 
 ### Capture de Pokémon
 - **Apparition Aléatoire** : Rencontrez des Pokémon sauvages.
@@ -41,10 +41,11 @@ Bienvenue dans mon Pokédex interactif ! Ce projet vous permet de capturer des P
 ## Utilisation
 
 1. **Accès aux Capteurs** : Autorisez l'accès au gyroscope et à l'accéléromètre lorsque cela est demandé.
-2. **Apparition d'un Pokémon** : Un Pokémon aléatoire s'affichera à l'écran.
-3. **Lancer de Pokéball** : Effectuez un mouvement de lancer avec votre appareil pour capturer le Pokémon.
-4. **Capture** : Si vous touchez le Pokémon, il sera ajouté à votre liste de captures.
-5. **Nouvelle Tentative** : Un nouveau Pokémon apparaîtra après chaque tentative.
+2. **Mode capture** : Pour passer au mode Capture de Pokémon : appuyez sur la Pokéball en haut à droite du Pokédex.
+3. **Apparition d'un Pokémon** : Un Pokémon aléatoire s'affichera à l'écran.
+4. **Lancer de Pokéball** : Effectuez un mouvement de lancer avec votre appareil pour capturer le Pokémon.
+5. **Capture** : Si vous touchez le Pokémon, il sera ajouté à votre liste de captures et stocké dans localStorage.
+6. **Voir liste de Pokémon capturés** : Appuyez sur le bouton en haut à gauche du Pokédex pour voir la liste de Pokémon capturés.
 
 ---
 
