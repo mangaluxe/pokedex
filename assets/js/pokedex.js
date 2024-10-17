@@ -233,37 +233,37 @@ if (pokedex) {
 
 // ----- Gyroscope -----
 
-let isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-let permissionGranted = false;
+// let isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+// let permissionGranted = false;
 
-function handleShake(e) {
-    if (e.rotationRate.alpha > 50 || e.rotationRate.beta > 50 || e.rotationRate.gamma > 50) {
-        getRandomPokemon();
-    }
-}
+// function handleShake(e) {
+//     if (e.rotationRate.alpha > 50 || e.rotationRate.beta > 50 || e.rotationRate.gamma > 50) {
+//         getRandomPokemon();
+//     }
+// }
 
-if (isIOS) {
-    window.addEventListener('touchend', function() { // Pour iOS, on ajoute un écouteur d'événement touchend qui demandera la permission d'utiliser les données de mouvement. Si la permission est accordée, on utilise l'événement devicemotion avec une fonction handleShake qui vérifie la vitesse de rotation de l'appareil
-        if (!permissionGranted) {
-            DeviceMotionEvent.requestPermission()
-                .then(response => {
-                    if (response === 'granted') {
-                        permissionGranted = true;
-                        window.addEventListener('devicemotion', handleShake);
-                    }
-                })
-                .catch(console.error);
-        }
-    });
-}
-else { // Android
-    window.addEventListener('devicemotion', (e) => { // Secousse du téléphone
-        const acceleration = e.accelerationIncludingGravity;
-        if (acceleration.x > 50 || acceleration.y > 50 || acceleration.z > 50) {
-            getRandomPokemon();
-        }
-    });
-}
+// if (isIOS) {
+//     window.addEventListener('touchend', function() { // Pour iOS, on ajoute un écouteur d'événement touchend qui demandera la permission d'utiliser les données de mouvement. Si la permission est accordée, on utilise l'événement devicemotion avec une fonction handleShake qui vérifie la vitesse de rotation de l'appareil
+//         if (!permissionGranted) {
+//             DeviceMotionEvent.requestPermission()
+//                 .then(response => {
+//                     if (response === 'granted') {
+//                         permissionGranted = true;
+//                         window.addEventListener('devicemotion', handleShake);
+//                     }
+//                 })
+//                 .catch(console.error);
+//         }
+//     });
+// }
+// else { // Android
+//     window.addEventListener('devicemotion', (e) => { // Secousse du téléphone
+//         const acceleration = e.accelerationIncludingGravity;
+//         if (acceleration.x > 50 || acceleration.y > 50 || acceleration.z > 50) {
+//             getRandomPokemon();
+//         }
+//     });
+// }
 
 // -----
 

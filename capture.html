@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Capture de Pokémon</title>
-    <link rel="stylesheet" href="assets/css/pokemon.css?v=2">
+    <link rel="stylesheet" href="assets/css/pokemon.css?v=6">
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 </head>
 <body class="capture">
 
     <main>
         <h1>Utilise la fonction gyroscope. Lancez votre smartphone comme un Pokéball pour attraper le Pokémon !</h1>
-        <p class="mini">Mangaluxe décline toute responsabilité si votre appareil s'envole vers d'autres cieux durant la capture.</p>
+        <p class="mini">Tapez l'écran pour activer la musique.</p>
 
         <div id="output"></div>
 
@@ -23,11 +23,12 @@
         <a href="index.html"><span id="mini-pokedex"></span></a>
 
         <audio id="audio-out" src="assets/audio/battle-theme.mp3" loop></audio>
-        
+        <audio id="sound-throw" src="assets/audio/throw.mp3"></audio>
+        <audio id="sound-wobble" src="assets/audio/pokeball-wobble.mp3"></audio>
     </main>
 
 
-    <script src="assets/js/capture.js?v=3"></script>
+    <script src="assets/js/capture.js?v=6"></script>
 
 </body>
 </html>

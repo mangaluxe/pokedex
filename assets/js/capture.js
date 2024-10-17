@@ -5,6 +5,8 @@ const pokemon = document.getElementById('pokemon');
 const output = document.getElementById('output');
 const audioOut = document.getElementById('audio-out');
 const personnage = document.getElementById('personnage');
+const soundThrow = document.getElementById("sound-throw");
+const soundWobble = document.getElementById("sound-wobble");
 let estLancee = false;
 let isPlaying = false;
 
@@ -74,37 +76,65 @@ fetchRandomPokemon(); // Appel à la fonction au chargement
 function lancerPokeball(acceleration) {
     if (!estLancee && Math.abs(acceleration.z) > 15) {
         estLancee = true;
+        soundThrow.play();
+
         const pokeballRect = pokeball.getBoundingClientRect();
         const pokemonRect = pokemon.getBoundingClientRect();
         
         pokeball.classList.add('thrown'); // Ajout de cette class durant la capture pour que le pokéball tourne
-        pokeball.style.bottom = '80%';
+        pokeball.style.bottom = '75%';
         pokeball.style.left = `${50 + (acceleration.x * 2)}%`;
         
         // setTimeout(function() { // Sans fonction flechée
         setTimeout(() => {
             const newPokeballRect = pokeball.getBoundingClientRect(); // getBoundingClientRect() renvoie la taille d'un élément et sa position par rapport au viewport
             if (checkCollision(newPokeballRect, pokemonRect)) {
-                output.textContent = "Pokémon capturé !";
+                soundWobble.play();
+                pokeball.classList.remove('thrown'); // Pour arrêter que le pokéball tourne
+                pokeball.classList.add('pokeballshake'); // Ajout de la classe pour l'animation de la Pokéball
+                // output.textContent = "Pokémon capturé !";
                 addCapturedPokemon(currentPokemonId); // Utiliser l'ID actuel pour l'ajouter
                 pokemon.style.display = 'none';
+                output.textContent = "";
+
+                // Message capturé après 6 sec :
+                setTimeout(() => {
+                    output.textContent = "Pokémon capturé !";
+                }, 6000);
+
+                // Pokéball revient après 8 sec :
+                setTimeout(() => {
+                    pokeball.classList.remove('pokeballshake'); // Retirer la classe de la Pokéball
+                    pokeball.classList.remove('thrown'); // Pour arrêter que le pokéball tourne
+                    pokeball.style.bottom = '20px';
+                    pokeball.style.left = '50%';
+                    estLancee = false;
+
+                    if (pokemon.style.display === 'none') {
+                        pokemon.style.display = 'block';
+                        pokemon.style.left = `${Math.random() * 80 + 10}%`;
+                        fetchRandomPokemon(); // Afficher un nouveau Pokémon aléatoire
+                    }
+                }, 8000);
+
             }
             else {
                 output.textContent = "Vous avez raté !";
-            }
 
-            setTimeout(() => {
-                pokeball.classList.remove('thrown'); // Pour arrêter de tourner
-                pokeball.style.bottom = '20px';
-                pokeball.style.left = '50%';
-                estLancee = false;
-                if (pokemon.style.display === 'none') {
-                    pokemon.style.display = 'block';
-                    pokemon.style.left = `${Math.random() * 80 + 10}%`;
-                    fetchRandomPokemon(); // Afficher un nouveau Pokémon aléatoire
-                }
-            }, 1000); // Pokéball revient après 1 sec
-        }, 600); // Message pour dire capturé ou raté
+                // Pokéball revient après 1 sec
+                setTimeout(() => {
+                    pokeball.classList.remove('thrown'); // Pour arrêter de tourner
+                    pokeball.style.bottom = '20px';
+                    pokeball.style.left = '50%';
+                    estLancee = false;
+                    if (pokemon.style.display === 'none') {
+                        pokemon.style.display = 'block';
+                        pokemon.style.left = `${Math.random() * 80 + 10}%`;
+                        fetchRandomPokemon(); // Afficher un nouveau Pokémon aléatoire
+                    }
+                }, 1000);
+            }
+        }, 600);
     }
 }
 

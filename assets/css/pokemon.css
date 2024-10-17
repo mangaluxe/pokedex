@@ -306,6 +306,25 @@ body.capture::before {
     text-align: center;
 }
 
+@keyframes pokeballshake {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    10% { transform: translate(-1px, -9px) rotate(-5deg); }
+    20% { transform: translate(-3px, 0px) rotate(3deg); }
+    30% { transform: translate(8px, 6px) rotate(0deg); }
+    40% { transform: translate(0px, 0px) rotate(15deg); }
+    50% { transform: translate(1px, 1px) rotate(-1deg); }
+    60% { transform: translate(0px, 0px) rotate(20deg); }
+    70% { transform: translate(1px, -1px) rotate(-1deg); }
+    80% { transform: translate(0px, 0px) rotate(20deg); }
+    90% { transform: translate(1px, 2px) rotate(-10deg); }
+    100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+.pokeballshake {
+    animation: pokeballshake 3s;
+    animation-iteration-count: 2;
+}
+
 #pokeball, #pokemon {
     background-size: cover;
     position: absolute;
