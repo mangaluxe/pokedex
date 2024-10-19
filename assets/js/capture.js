@@ -10,6 +10,16 @@ const soundWobble = document.getElementById("sound-wobble");
 let estLancee = false;
 let isPlaying = false;
 
+// Pour animer personnage :
+const persImg = [
+    "assets/img/personnage2.gif",
+    "assets/img/personnage3.gif",
+    "assets/img/personnage4.gif",
+    "assets/img/personnage5.gif"
+];
+let imageIndex = 0;
+let animationInterval;
+
 const apiUrl = "https://pokeapi.co/api/v2/pokemon";
 let currentPokemonId; // Pour stocker l'ID du Pokémon actuel
 
@@ -78,6 +88,20 @@ function lancerPokeball(acceleration) {
         estLancee = true;
         soundThrow.play();
 
+        // Démarrer l'animation du personnage :
+        imageIndex = 0; // Réinitialiser l'index d'image
+        animationInterval = setInterval(() => {
+            personnage.src = persImg[imageIndex]; // Changer l'image du personnage
+            imageIndex++;
+            if (imageIndex >= persImg.length) {
+                clearInterval(animationInterval); // Arrêter l'animation après la dernière image
+                // Réinitialiser l'image du personnage après un délai
+                setTimeout(() => {
+                    personnage.src = "assets/img/personnage.gif"; // Réinitialiser l'image du personnage
+                }, 800); // Délai avant de revenir à l'image initiale
+            }
+        }, 100); // Changer d'image toutes les 100 ms
+        
         const pokeballRect = pokeball.getBoundingClientRect();
         const pokemonRect = pokemon.getBoundingClientRect();
         
