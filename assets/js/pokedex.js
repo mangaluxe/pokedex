@@ -53,6 +53,7 @@ const getPokemonByIdentifier = async (identifier) => {
         const data = await response.json();
         showPokemonInfo(data);
         currentId = data.id; // Mise à jour de l'ID actuel
+        removeShowlist(); // Revenir au mode "Recherche" si on est sur la liste capturés
     }
     catch (error) {
         console.error("Erreur: ", error);
@@ -128,6 +129,36 @@ const showPokemonInfo = (pokemon) => {
 
 
 /**
+ * Revenir au mode "Recherche"
+ */
+function removeShowlist() {
+    pokedex.classList.remove('showlist');
+}
+
+/**
+ * Passer du mode "Recherche" à "Liste capturés", ou inversement
+ */
+function changeMode() {
+    if (pokedex.classList.contains('showlist')) {
+        // pokedex.classList.remove('showlist');
+        removeShowlist();
+    }
+    else {
+        pokedex.classList.add('showlist');
+
+        soundOut.src = 'assets/audio/dexter.mp3';
+        soundOut.play();
+    }
+}
+
+
+if (dexterBtn) {
+    dexterBtn.addEventListener('click', changeMode);
+}
+
+
+
+/**
  * Pokémon suivant
  */
 const getNextPokemon = () => {
@@ -196,7 +227,7 @@ function dragEnd(e) {
     // Ignore les petits mouvements :
     let diff = startX / endX;
     // console.log(diff);
-    if (diff > 0.95 && diff < 1.05) { // Marche aussi: if (Math.abs(diff) < 0.05) {
+    if (diff > 0.90 && diff < 1.10) { // Marche aussi: if (Math.abs(diff) < 0.10) {
         return;
     }
 
@@ -281,17 +312,24 @@ const afficherListeCaptures = async () => {
         capturedPokemonList.innerHTML = '<li>Aucun Pokémon capturé.</li>';
     }
     else {
+        document.getElementById('total-captured').innerText = pokemonCapturedIds.length;
+
         for (const id of pokemonCapturedIds) {
             try {
                 const response = await fetch(`${apiUrl}/${id}`);
                 if (response.ok) {
                     const data = await response.json();
                     const item = document.createElement('li');
+
                     item.innerHTML = `
-                        <img src="${data.sprites.front_default}" alt="${data.name}">
-                        ${capitalizeFirstLetter(data.name)} (id: ${id})
+                        <span class="pokemon-link" data-id="${id}">
+                            <img src="${data.sprites.front_default}" alt="${data.name}">
+                            ${capitalizeFirstLetter(data.name)} (id: ${id})
+                        </span>
                     `;
                     capturedPokemonList.appendChild(item);
+
+                    item.querySelector('.pokemon-link').addEventListener('click', () => getPokemonByIdentifier(id));
                 }
             }
             catch (error) {
@@ -304,20 +342,6 @@ const afficherListeCaptures = async () => {
 
 afficherListeCaptures(); // Afficher liste de pokémon attrapés au chargement
 
-
-if (dexterBtn) {
-    dexterBtn.addEventListener('click', function() {
-        if (pokedex.classList.contains('showlist')) {
-            pokedex.classList.remove('showlist');
-        }
-        else {
-            pokedex.classList.add('showlist');
-
-            soundOut.src = 'assets/audio/dexter.mp3';
-            soundOut.play();
-        }
-    });
-}
 
 
 if (pokemonPrevious) {
