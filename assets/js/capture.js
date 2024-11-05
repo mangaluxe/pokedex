@@ -1,14 +1,15 @@
-"use strict";
+// "use strict";
 
-const pokeball = document.getElementById('pokeball');
-const pokemon = document.getElementById('pokemon');
-const output = document.getElementById('output');
-const audioOut = document.getElementById('audio-out');
-const personnage = document.getElementById('personnage');
+const pokeball = document.getElementById("pokeball");
+const pokemon = document.getElementById("pokemon");
+const texte = document.getElementById("texte");
+const audioOut = document.getElementById("audio-out");
+const musicOnOff = document.getElementById("music-on-off")
+const personnage = document.getElementById("personnage");
 const soundThrow = document.getElementById("sound-throw");
 const soundWobble = document.getElementById("sound-wobble");
 let estLancee = false;
-let isPlaying = false;
+let musique = false;
 
 // Pour animer personnage :
 const persImg = [
@@ -33,18 +34,29 @@ function getRandomPokemonG1() {
 }
 
 
-// Récupérer ou initialiser la liste des Pokémon capturés dans localStorage
-let pokemonList = JSON.parse(localStorage.getItem('pokemonList')) || [];
+// Récupérer ou initialiser la liste des Pokémon capturés dans localStorage :
+let pokemonList = JSON.parse(localStorage.getItem("pokemonList")) || [];
+
+
+// Ajouter Pokémon de départ si "pokemonList" est vide dans localStorage :
+if (pokemonList.length === 0) {
+    pokemonList.push(25); // Ajouter Pikachu
+    pokemonList.push(10); // Ajouter Chenipan
+    localStorage.setItem("pokemonList", JSON.stringify(pokemonList));
+}
 
 
 /**
- * Ajouter un Pokémon capturé à la liste et enregistrer dans localStorage
+ * Ajouter un Pokémon capturé à la liste et enregistrer dans localStorage :
  * @param {number} id - ID du Pokémon capturé
  */
 function addCapturedPokemon(id) {
     if (!pokemonList.includes(id)) { // Vérifier si le Pokémon est déjà dans la liste pour éviter doublon
         pokemonList.push(id);
-        localStorage.setItem('pokemonList', JSON.stringify(pokemonList));
+        localStorage.setItem("pokemonList", JSON.stringify(pokemonList));
+
+        // console.log("Pokémon capturé ajouté :", id);
+        // console.log("Liste des Pokémon capturés :", pokemonList);
     }
 }
 
@@ -58,15 +70,15 @@ function fetchRandomPokemon() {
     fetch(`${apiUrl}/${currentPokemonId}`)
         .then(response => response.json())
         .then(data => {
-            const pokemonSprite = data.sprites.front_default;
-            pokemon.style.backgroundImage = `url('${pokemonSprite}')`;
-            pokemon.style.display = 'block';
-            pokemon.style.width = '100px';
-            pokemon.style.height = '100px';
-            pokemon.style.left = `${Math.random() * 80 + 10}%`;
+            // console.log(data.sprites.front_default);
+            pokemon.src = data.sprites.front_default;
+            let percent = Math.random() * 75; // Nb aléatoire entre 0% et 75%
+            // console.log(percent);
+            pokemon.style.left = percent + "%";
             
+            // Afficher le message avec le nom du Pokémon :
             const pokemonName = data.name.charAt(0).toUpperCase() + data.name.slice(1);
-            output.textContent = `Un ${pokemonName} sauvage apparaît !`;
+            texte.textContent = `Un ${pokemonName} sauvage apparaît !`;
         })
         .catch(error => {
             console.error("Erreur récupération du Pokémon:", error);
@@ -79,12 +91,10 @@ fetchRandomPokemon(); // Appel à la fonction au chargement
 
 /**
  * Lancer Pokéball pour tenter de capturer le Pokémon
- * @param {Object} acceleration - L'objet contenant les données d'accélération
- * @param {number} acceleration.x - L'accélération sur l'axe X
- * @param {number} acceleration.z - L'accélération sur l'axe Z
+ * @param {number} posX - La position X calculée pour la Pokéball
  */
-function lancerPokeball(acceleration) {
-    if (!estLancee && Math.abs(acceleration.z) > 15) {
+function lancerPokeball(posX) {
+    if (!estLancee) {
         estLancee = true;
         soundThrow.play();
 
@@ -95,67 +105,58 @@ function lancerPokeball(acceleration) {
             imageIndex++;
             if (imageIndex >= persImg.length) {
                 clearInterval(animationInterval); // Arrêter l'animation après la dernière image
-                // Réinitialiser l'image du personnage après un délai
+
                 setTimeout(() => {
                     personnage.src = "assets/img/personnage.gif"; // Réinitialiser l'image du personnage
                 }, 800); // Délai avant de revenir à l'image initiale
             }
         }, 100); // Changer d'image toutes les 100 ms
         
-        const pokeballRect = pokeball.getBoundingClientRect();
-        const pokemonRect = pokemon.getBoundingClientRect();
+        pokeball.classList.add("thrown"); // Ajout de cette class durant la capture pour que le pokéball tourne
+        pokeball.style.bottom = "75%";
+        pokeball.style.left = posX + "%";
         
-        pokeball.classList.add('thrown'); // Ajout de cette class durant la capture pour que le pokéball tourne
-        pokeball.style.bottom = '75%';
-        pokeball.style.left = `${50 + (acceleration.x * 2)}%`;
-        
-        // setTimeout(function() { // Sans fonction flechée
         setTimeout(() => {
-            const newPokeballRect = pokeball.getBoundingClientRect(); // getBoundingClientRect() renvoie la taille d'un élément et sa position par rapport au viewport
-            if (checkCollision(newPokeballRect, pokemonRect)) {
+            const pokemonRect = pokemon.getBoundingClientRect(); // Rectangle du Pokémon
+            const pokeballRect = pokeball.getBoundingClientRect(); // Rectangle du Pokéball
+            if (checkCollision(pokeballRect, pokemonRect)) {
                 soundWobble.play();
-                pokeball.classList.remove('thrown'); // Pour arrêter que le pokéball tourne
-                pokeball.classList.add('pokeballshake'); // Ajout de la classe pour l'animation de la Pokéball
-                // output.textContent = "Pokémon capturé !";
+                pokeball.classList.remove("thrown"); // Pour arrêter que le pokéball tourne
+                pokeball.classList.add("pokeballshake"); // Ajout de la classe pour l'animation de la Pokéball
                 addCapturedPokemon(currentPokemonId); // Utiliser l'ID actuel pour l'ajouter
-                pokemon.style.display = 'none';
-                output.textContent = "";
+                pokemon.style.display = "none";
+                texte.textContent = "";
 
                 // Message capturé après 6 sec :
                 setTimeout(() => {
-                    output.textContent = "Pokémon capturé !";
+                    texte.textContent = "Pokémon capturé !";
                 }, 6000);
 
                 // Pokéball revient après 8 sec :
                 setTimeout(() => {
-                    pokeball.classList.remove('pokeballshake'); // Retirer la classe de la Pokéball
-                    pokeball.classList.remove('thrown'); // Pour arrêter que le pokéball tourne
-                    pokeball.style.bottom = '20px';
-                    pokeball.style.left = '50%';
+                    pokeball.classList.remove("pokeballshake"); // Retirer la classe de la Pokéball
+                    pokeball.classList.remove("thrown"); // Pour arrêter que le pokéball tourne
+                    pokeball.style.bottom = "20px";
+                    pokeball.style.left = "50%";
                     estLancee = false;
 
-                    if (pokemon.style.display === 'none') {
-                        pokemon.style.display = 'block';
-                        pokemon.style.left = `${Math.random() * 80 + 10}%`;
+                    if (pokemon.style.display === "none") {
+                        pokemon.style.display = "block";
                         fetchRandomPokemon(); // Afficher un nouveau Pokémon aléatoire
                     }
                 }, 8000);
 
             }
             else {
-                output.textContent = "Vous avez raté !";
+                texte.textContent = "Vous avez raté !";
 
                 // Pokéball revient après 1 sec
                 setTimeout(() => {
-                    pokeball.classList.remove('thrown'); // Pour arrêter de tourner
-                    pokeball.style.bottom = '20px';
-                    pokeball.style.left = '50%';
+                    pokeball.classList.remove("thrown"); // Pour arrêter de tourner
+                    pokeball.style.bottom = "20px";
+                    pokeball.style.left = "50%";
+                    texte.textContent = "";
                     estLancee = false;
-                    if (pokemon.style.display === 'none') {
-                        pokemon.style.display = 'block';
-                        pokemon.style.left = `${Math.random() * 80 + 10}%`;
-                        fetchRandomPokemon(); // Afficher un nouveau Pokémon aléatoire
-                    }
                 }, 1000);
             }
         }, 600);
@@ -165,56 +166,90 @@ function lancerPokeball(acceleration) {
 
 /**
  * Vérifier les collisions
- * @param {DOMRect} rect1 - Rectangle 1
- * @param {DOMRect} rect2 - Rectangle 2
- * @returns {boolean} true si collision, false sinon
+ * @param {DOMRect} rect1 - Rectangle (Pokéball)
+ * @param {DOMRect} rect2 - Rectangle (Pokémon)
+ * @returns {boolean} Vrai s'il y a collision, faux sinon
  */
 function checkCollision(rect1, rect2) {
-    return !(rect1.right < rect2.left ||  rect1.left > rect2.right ||  rect1.bottom < rect2.top ||  rect1.top > rect2.bottom);
+    return !(rect1.right < rect2.left || rect1.left > rect2.right || rect1.bottom < rect2.top || rect1.top > rect2.bottom);
 }
 
+
+// ----- Avec Gyroscope -----
 
 // Écouteur d'événement pour détecter les mouvements (gyroscope/accéléromètre)
 window.addEventListener("devicemotion", (e) => {
     const acc = e.acceleration;
-    if (acc) {
-        lancerPokeball(acc);
+    if (acc && Math.abs(acc.z) > 15) {
+        lancerPokeball(50 + (acc.x * 2)); // Utiliser la position x finale
     }
 });
 
+
+// ----- Avec Souris -----
+
+let isMouseDown = false;
+let initialMouseY = 0;
+
+// Écouteur d'événement pour détecter le début du clic de la souris :
+window.addEventListener("mousedown", (e) => {
+    if (!estLancee) {
+        isMouseDown = true;
+        initialMouseY = e.clientY; // Enregistrer la position initiale de la souris en Y
+    }
+});
+
+// Écouteur d'événement pour détecter le relâchement du clic de la souris :
+window.addEventListener("mouseup", (e) => {
+    if (isMouseDown && !estLancee) {
+        const distanceMoved = initialMouseY - e.clientY;
+        if (distanceMoved > 120) {
+            lancerPokeball((e.clientX / window.innerWidth) * 100); // Utiliser la position x finale
+        }
+    }
+    isMouseDown = false; // Réinitialiser l'état
+});
+
+
+// ----- -----
 
 /**
  * Lire/Arrêter musique
  */
  function toggleAudio() {
-    if (isPlaying) {
-        audioOut.pause();
-        isPlaying = false;
-    }
-    else {
-        audioOut.play();
-        isPlaying = true;
-    }
+    // if (musique) {
+    //     audioOut.pause();
+    //     musique = false;
+    // }
+    // else {
+    //     audioOut.play();
+    //     musique = true;
+    // }
+
+    musique ? audioOut.pause() : audioOut.play(); // Avec opérateur ternaire
+    musique = !musique;
 }
 
-// Demande de permission pour iOS
+
+// ----- Demande de permission -----
+
 if (typeof DeviceMotionEvent.requestPermission === "function") {
-    document.body.addEventListener("click", function() {
+    document.body.addEventListener("click", () => {
         DeviceMotionEvent.requestPermission()
             .then(permissionState => {
                 if (permissionState === "granted") { // Permission ok
-                    output.innerHTML = "Lancez votre pokéball !";
+                    texte.innerHTML = "Lancez votre pokéball !";
                     toggleAudio();
                 }
                 else {
-                    output.innerHTML = "Fonction gyroscope bloquée";
+                    texte.innerHTML = "Fonction gyroscope bloquée";
                 }
             })
             .catch(console.error);
     });
 }
 else {
-    document.body.addEventListener("click", function() {
+    musicOnOff.addEventListener("click", () => {
         toggleAudio();
     });
 }
